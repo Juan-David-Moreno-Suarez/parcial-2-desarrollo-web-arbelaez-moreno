@@ -1,0 +1,44 @@
+body,
+#root {
+    background: #111;
+    color: white;
+    font-family: Arial;
+    height: 100%;
+}
+
+h1,
+h4 {
+    margin: 3px;
+    color: rgb(81, 61, 211);
+}
+
+#payment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+}
+
+#payment button {
+    background-color: rgb(81, 61, 211);
+    color: white;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+#payment button:hover {
+    background-color: rgb(70, 54, 170);
+    transform: translateY(-4px);
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}

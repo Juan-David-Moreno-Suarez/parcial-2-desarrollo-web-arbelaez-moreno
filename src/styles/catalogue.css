@@ -1,0 +1,238 @@
+body,
+#root {
+  background: #111;
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+.cat-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-container header {
+  position: sticky;
+  top: 0;
+  background-color: black;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  height: 100px;
+  width: 100%;
+  z-index: 1;
+
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+header nav section {
+  display: flex;
+  width: 40%;
+  height: 40px;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 10px;
+  padding-left: 20px;
+  box-shadow: 4px 3px black;
+}
+
+header nav section:hover {
+  border: 2px solid rgb(81, 61, 211);
+}
+
+header a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: rgb(81, 61, 211);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+header a p {
+  margin: 0;
+  font-weight: bold;
+}
+
+header a:hover {
+  transform: translateY(-6px);
+  filter: drop-shadow(0 15px 30px rgba(156, 146, 248, 0.6));
+}
+
+#searchBar {
+  height: 100%;
+  width: 100%;
+  border: 0px;
+  align-content: center;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+#searchBar::placeholder {
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#searchBar:focus {
+  outline: none;
+}
+
+#searchButton {
+  height: 100%;
+  aspect-ratio: 1;
+  border: 0px;
+  background-color: rgb(121, 103, 233);
+}
+
+#searchButton:hover {
+  cursor: pointer;
+}
+
+#searchButton:active {
+  background-color: #a091e2;
+}
+
+#agregarProducto {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 100%;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border: 2px solid #1f1f1f;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#agregarProducto:hover {
+  background-color: #1a1a1a;
+}
+
+#agregarProducto span:first-child {
+  font-size: 58px;
+  line-height: 1;
+  margin-bottom: 18px;
+}
+
+#agregarProducto span:last-child {
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#filtro {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 100%;
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border: 2px solid #1f1f1f;
+  border-radius: 14px;
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+
+#productos h1 {
+  text-align: center;
+}
+
+#catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 30px;
+  padding: 40px;
+  padding-right: 240px;
+  margin-left: 240px;
+}
+
+#catalogo article {
+  background: #161616;
+  padding: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#catalogo article:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+#catalogo article img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: #222;
+}
+
+#catalogo article h4 {
+  margin: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#catalogo article p {
+  margin: 0 16px 12px;
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+  flex-grow: 1;
+}
+
+#catalogo article strong {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+#catalogo article section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#catalogo article section button {
+  background-color: rgb(81, 61, 211);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+  border: 0;
+}
+
+#catalogo article section button:hover {
+  background-color: rgb(122, 105, 231);
+}
+
+#catalogo article section button:active {
+  background-color: rgb(53, 36, 165);
+}
