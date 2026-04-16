@@ -23,6 +23,18 @@ function Home() {
                     <i className="fa fa-history fa-2x" aria-hidden="true"></i>
                     Historial
                 </Link>
+                <Link to="/providers">
+                    <i class="fa-solid fa-address-book"></i>
+                    Proveedores
+                </Link>
+                <Link to="/categories">
+                    <i class="fa-solid fa-book"></i>
+                    Categorias
+                </Link>
+                <Link to="/clients">
+                    <i class="fa-solid fa-user"></i>
+                    Clientes
+                </Link>
             </nav>
         </div>
     )
