@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { fetchResource, postResource, putResource } from "../services/api"
+import { fetchResource, postResource, updateResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import { useState } from "react"
@@ -30,15 +30,15 @@ export default function Purchase() {
                 return
             }
 
-            // 🔥 actualizar stock
+            // actualizar stock
             const updated = {
                 ...producto,
                 stock: Number(producto.stock) + cantidad
             }
 
-            await putResource(1, producto.id, updated)
+            await updateResource(1, producto.id, updated)
 
-            // 🔥 guardar historial de compra
+            //guardar historial de compra
             const compra = {
                 id: crypto.randomUUID(),
                 producto: nombre,

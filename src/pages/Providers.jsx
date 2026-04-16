@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchResource, postResource, putResource, deleteResource } from "../services/api"
+import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 
@@ -30,7 +30,7 @@ export default function Providers() {
 
         try {
             if (editing) {
-                await putResource(4, editing.id, data)
+                await updateResource(4, editing.id, data)
                 Toastify({ text: "Proveedor editado", duration: 2000 }).showToast()
             } else {
                 await postResource(4, data)

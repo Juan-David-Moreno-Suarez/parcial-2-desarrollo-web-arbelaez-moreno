@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchResource, postResource, putResource, deleteResource } from "../services/api"
+import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 
@@ -29,7 +29,7 @@ export default function Categories() {
 
         try {
             if (editing) {
-                await putResource(6, editing.id, data)
+                await updateResource(6, editing.id, data)
                 Toastify({ text: "Categoría editada", duration: 2000 }).showToast()
             } else {
                 await postResource(6, data)

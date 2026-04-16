@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { fetchResource, putResource } from "../services/api"
+import { fetchResource, updateResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import { useEffect, useState } from "react"
@@ -39,7 +39,7 @@ export default function EditProduct() {
                 stock: formData.get('stock'),
             }
 
-            await putResource(1, id, updated)
+            await updateResource(1, id, updated)
 
             Toastify({
                 text: "Producto actualizado",
