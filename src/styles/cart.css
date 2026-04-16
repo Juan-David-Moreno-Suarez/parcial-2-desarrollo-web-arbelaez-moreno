@@ -234,3 +234,21 @@ main button:hover {
         display: none;
     }
 }
+/* ===== MOBILE FIX CARRITO ===== */
+@media (max-width: 768px) {
+
+    main {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #carrito {
+        order: 1; /* 🔥 primero el carrito */
+        width: 100%;
+    }
+
+    #catalogo {
+        order: 2; /* 🔥 luego productos */
+        width: 100%;
+    }
+}

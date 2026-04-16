@@ -22,12 +22,12 @@ export default function Clients() {
         e.preventDefault()
         const form = new FormData(e.target)
 
-        const data = {
-            id: editing ? editing.id : crypto.randomUUID(),
-            nombre: form.get('nombre'),
-            email: form.get('email'),
-            telefono: form.get('telefono')
-        }
+    const data = {
+        id: editing ? editing.id : crypto.randomUUID(),
+        nombre: form.get('nombre'),
+        email: form.get('email') || '',
+        telefono: form.get('telefono') || ''
+    }
 
         try {
             if (editing) {
@@ -71,7 +71,11 @@ export default function Clients() {
 
             <form onSubmit={handleSubmit}>
                 <input name="nombre" placeholder="Nombre" required />
-                <input name="email" placeholder="Email" />
+                <input
+                    name="email"
+                    placeholder="Email"
+                    defaultValue={editing?.email || ''}
+                />
                 <input name="telefono" placeholder="Teléfono" />
                 <button>{editing ? "Guardar cambios" : "Crear cliente"}</button>
             </form>

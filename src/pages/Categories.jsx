@@ -46,38 +46,55 @@ export default function Categories() {
         await deleteResource(6, id)
         loadCategories()
     }
-
-    const filtrados = categories.filter(c =>
-        c.nombre.toLowerCase().includes(search.toLowerCase())
+    const filtrados = (categories || []).filter(c =>
+        (c.nombre || '').toLowerCase().includes(search.toLowerCase())
     )
-
+    
     return (
-        <main>
-        <header>
-            <Navbar />
-        </header>
-            <h1>Categorías</h1>
+        <main className="categories-container">
+            <header>
+                <Navbar />
+            </header>
 
-            <input
-                placeholder="Buscar categoría..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-            />
+            <section className="categories-content">
 
-            <form onSubmit={handleSubmit}>
-                <input name="nombre" placeholder="Nombre categoría" required />
-                <button>{editing ? "Guardar cambios" : "Crear categoría"}</button>
-            </form>
+                <h1>Categorías</h1>
 
-            {filtrados.map(c => (
-                <div key={c.id}>
-                    <p>{c.nombre}</p>
+                <input
+                    placeholder="Buscar categoría..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                />
 
-                    <button onClick={() => setEditing(c)}>Editar</button>
-                    <button onClick={() => eliminar(c.id)}>Eliminar</button>
-                </div>
-            ))}
+                <form onSubmit={handleSubmit}>
+                    <input
+                        name="nombre"
+                        placeholder="Nombre categoría"
+                        defaultValue={editing?.nombre || ''}
+                        required
+                    />
+                    <button>
+                        {editing ? "Guardar cambios" : "Crear categoría"}
+                    </button>
+                </form>
 
+                {filtrados.map(c => (
+                    <div key={c.id} className="category-card">
+
+                        <p>{c.nombre}</p>
+
+                        <button onClick={() => setEditing(c)}>
+                            Editar
+                        </button>
+
+                        <button onClick={() => eliminar(c.id)}>
+                            Eliminar
+                        </button>
+
+                    </div>
+                ))}
+
+            </section>
         </main>
     )
 }
