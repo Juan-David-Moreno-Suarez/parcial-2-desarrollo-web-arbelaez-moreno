@@ -83,3 +83,31 @@
         width: 100%;
     }
 }
+/* ===== MOBILE FIX LISTADOS ===== */
+@media (max-width: 768px) {
+
+    .clients-content,
+    .categories-content {
+        padding: 15px;
+    }
+
+    /* FORM */
+    .clients-content form,
+    .categories-content form {
+        flex-direction: column;
+    }
+
+    .clients-content input,
+    .categories-content input,
+    .clients-content button,
+    .categories-content button {
+        width: 100%;
+    }
+
+    /* CARDS */
+    .client-card,
+    .category-card {
+        width: 100%;
+    }
+
+}

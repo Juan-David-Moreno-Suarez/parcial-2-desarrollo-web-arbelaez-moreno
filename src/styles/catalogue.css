@@ -293,3 +293,33 @@ header a:hover {
         display: none;
     }
 }
+
+/* ===== MOBILE FIX BOTON ===== */
+@media (max-width: 768px) {
+
+    #agregarProducto {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+
+        width: 100%;
+        height: auto;
+
+        margin-top: 20px;
+        padding: 15px;
+
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #agregarProducto span:first-child {
+        font-size: 28px;
+        margin: 0;
+    }
+
+    #agregarProducto span:last-child {
+        font-size: 14px;
+    }
+}
