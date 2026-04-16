@@ -24,15 +24,15 @@ function Home() {
                     Historial
                 </Link>
                 <Link to="/providers">
-                    <i class="fa-solid fa-address-book"></i>
+                    <i className="fa fa-address-book fa-2x"></i>
                     Proveedores
                 </Link>
                 <Link to="/categories">
-                    <i class="fa-solid fa-book"></i>
+                    <i className="fa fa-book fa-2x"></i>
                     Categorias
                 </Link>
                 <Link to="/clients">
-                    <i class="fa-solid fa-user"></i>
+                    <i className="fa fa-user fa-2x"></i>
                     Clientes
                 </Link>
             </nav>

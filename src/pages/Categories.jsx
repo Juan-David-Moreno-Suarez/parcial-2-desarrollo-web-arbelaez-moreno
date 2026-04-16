@@ -2,13 +2,11 @@ import { useEffect, useState } from "react"
 import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
-
+import Navbar from '../components/Navbar'
 export default function Categories() {
-
     const [categories, setCategories] = useState([])
     const [search, setSearch] = useState('')
     const [editing, setEditing] = useState(null)
-
     useEffect(() => {
         loadCategories()
     }, [])
@@ -26,7 +24,6 @@ export default function Categories() {
             id: editing ? editing.id : crypto.randomUUID(),
             nombre: form.get('nombre')
         }
-
         try {
             if (editing) {
                 await updateResource(6, editing.id, data)
@@ -56,7 +53,9 @@ export default function Categories() {
 
     return (
         <main>
-
+        <header>
+            <Navbar />
+        </header>
             <h1>Categorías</h1>
 
             <input
