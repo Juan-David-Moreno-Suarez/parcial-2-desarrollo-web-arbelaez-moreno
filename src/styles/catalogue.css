@@ -251,3 +251,45 @@ header a:hover {
 #catalogo article section button:active {
   background-color: rgb(53, 36, 165);
 }
+/* ===== CELULARES ===== */
+@media (max-width: 768px) {
+
+    body {
+        align-items: flex-start;
+    }
+
+    .cart-container {
+        padding: 0 10px;
+    }
+
+    header nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .carrito-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* ===== ICONOS ===== */
+@media (max-width: 768px) {
+
+    header nav {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    header a i {
+        font-size: 18px;
+    }
+
+    header a p {
+        font-size: 10px;
+    }
+
+    header a p {
+        display: none;
+    }
+}
