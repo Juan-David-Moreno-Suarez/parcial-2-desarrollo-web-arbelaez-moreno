@@ -118,3 +118,19 @@
     color: #aaa;
     font-size: 0.9rem;
 }
+.providers-container header a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: rgb(122, 105, 231);
+    font-weight: bold;
+    padding: 0 20px;
+    height: 100%;
+    width: fit-content;
+}
+
+.providers-container header a h2 {
+    margin: 0;
+    font-size: 1rem;
+}

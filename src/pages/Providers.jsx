@@ -3,6 +3,7 @@ import { fetchResource, postResource, updateResource, deleteResource } from "../
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/providers.css'
+import { Link } from "react-router-dom"
 
 export default function Providers() {
 
@@ -88,8 +89,13 @@ export default function Providers() {
     )
 
     return (
-        <div className="providers-container">
-            <header />
+        <main className="providers-container">
+            <header>
+                <Link to="/">
+                    <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                    <h2>Volver</h2>
+                </Link>
+            </header>
 
             <div className="providers-content">
                 <h1>Proveedores</h1>
@@ -150,6 +156,6 @@ export default function Providers() {
                     ))
                 )}
             </div>
-        </div>
+        </main>
     )
 }
