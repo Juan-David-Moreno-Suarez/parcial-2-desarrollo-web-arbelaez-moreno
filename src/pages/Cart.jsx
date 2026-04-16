@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import '../styles/cart.css'
 
 function Cart() {
-    const [productos, setProductos] = useState(safeArray('productos'))
+    const [productos, setProductos] = useState([])
     const [carrito, setCarrito] = useState(safeArray('carrito'))
     const navigate = useNavigate()
 
@@ -70,7 +70,7 @@ function Cart() {
                     <section id="catalogo">
                         {productos.map(producto => (
                             <article key={producto.id}>
-                                <img src={producto.imagen} width="100" alt={producto.nombre} />
+                                <img src={producto.imagen || '/public/img/logo.png'} width="100" alt={producto.nombre} />
                                 <h4>{producto.nombre}</h4>
                                 <p>{producto.descripcion}</p>
                                 <strong>${producto.precio}</strong>

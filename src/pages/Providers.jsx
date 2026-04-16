@@ -8,14 +8,17 @@ export default function Providers() {
     const [providers, setProviders] = useState([])
     const [search, setSearch] = useState('')
     const [editing, setEditing] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         loadProviders()
     }, [])
 
     async function loadProviders() {
-        const data = await fetchResource(4) // 🔥 endpoint providers
+        setLoading(true)
+        const data = await fetchResource(5)
         setProviders(data)
+        setLoading(false)
     }
 
     async function handleSubmit(e) {
@@ -30,16 +33,17 @@ export default function Providers() {
 
         try {
             if (editing) {
-                await updateResource(4, editing.id, data)
+                await updateResource(5, editing.id, data)
+                loadProviders()
                 Toastify({ text: "Proveedor editado", duration: 2000 }).showToast()
             } else {
-                await postResource(4, data)
+                await postResource(5, data)
+                loadProviders()
                 Toastify({ text: "Proveedor creado", duration: 2000 }).showToast()
             }
-
             setEditing(null)
             e.target.reset()
-            loadProviders()
+
 
         } catch {
             Toastify({ text: "Error", duration: 2000 }).showToast()
@@ -47,7 +51,7 @@ export default function Providers() {
     }
 
     async function eliminar(id) {
-        await deleteResource(4, id)
+        await deleteResource(5, id)
         loadProviders()
     }
 
@@ -72,13 +76,14 @@ export default function Providers() {
                 <button>{editing ? "Editar" : "Crear"}</button>
             </form>
 
-            {filtrados.map(p => (
-                <div key={p.id}>
-                    <p>{p.nombre}</p>
-                    <button onClick={() => setEditing(p)}>Editar</button>
-                    <button onClick={() => eliminar(p.id)}>Eliminar</button>
-                </div>
-            ))}
+            {loading ? "Cargando..." :
+                filtrados.map(p => (
+                    <div key={p.id}>
+                        <p>{p.nombre}</p>
+                        <button onClick={() => setEditing(p)}>Editar</button>
+                        <button onClick={() => eliminar(p.id)}>Eliminar</button>
+                    </div>
+                ))}
 
         </main>
     )

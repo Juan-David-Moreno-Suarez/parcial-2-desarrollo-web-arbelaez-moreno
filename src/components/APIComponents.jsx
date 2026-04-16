@@ -10,7 +10,7 @@ export default function CategoryList() {
 
     <select name='categoria' required disabled={loading}>
       {(data ?? []).map((p, i) => (
-        <option key={i}>{p.categoria}</option>
+        <option key={i}>{p.nombre}</option>
       ))}
     </select>
   );
