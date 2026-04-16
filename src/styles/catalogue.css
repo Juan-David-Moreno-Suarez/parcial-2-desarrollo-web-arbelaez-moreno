@@ -24,6 +24,21 @@ body,
 
 }
 
+.confirmar-eliminar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.confirmar-eliminar button:first-of-type {
+  background-color: rgb(180, 50, 50);
+}
+
+.confirmar-eliminar button:last-of-type {
+  background-color: rgb(60, 60, 60);
+}
+
 header nav {
   display: flex;
   justify-content: space-between;

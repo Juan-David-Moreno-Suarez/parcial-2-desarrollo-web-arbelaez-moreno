@@ -1,0 +1,33 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.prod-container,
+.form-container {
+  height: 100%;
+  align-items: center;
+}
+
+.prod-container header {
+  align-items: left;
+  section {
+    width: 150px;
+    padding: 10px;
+    a {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+  }
+}
