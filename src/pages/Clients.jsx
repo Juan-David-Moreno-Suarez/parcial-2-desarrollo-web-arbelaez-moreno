@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
-
+import Navbar from '../components/Navbar'
 export default function Clients() {
 
     const [clients, setClients] = useState([])
@@ -14,7 +14,7 @@ export default function Clients() {
     }, [])
 
     async function loadClients() {
-        const data = await fetchResource(5)
+        const data = await fetchResource(4)
         setClients(data)
     }
 
@@ -31,10 +31,10 @@ export default function Clients() {
 
         try {
             if (editing) {
-                await updateResource(5, editing.id, data)
+                await updateResource(4, editing.id, data)
                 Toastify({ text: "Cliente editado", duration: 2000 }).showToast()
             } else {
-                await postResource(5, data)
+                await postResource(4, data)
                 Toastify({ text: "Cliente creado", duration: 2000 }).showToast()
             }
 
@@ -48,7 +48,7 @@ export default function Clients() {
     }
 
     async function eliminar(id) {
-        await deleteResource(5, id)
+        await deleteResource(4, id)
         loadClients()
     }
 
@@ -58,7 +58,9 @@ export default function Clients() {
 
     return (
         <main>
-
+            <header>
+                <Navbar />
+            </header>
             <h1>Clientes</h1>
 
             <input

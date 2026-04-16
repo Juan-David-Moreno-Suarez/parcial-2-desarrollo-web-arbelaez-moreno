@@ -1,0 +1,120 @@
+.providers-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.providers-container header {
+    position: sticky;
+    top: 0;
+    background-color: black;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 60px;
+    width: 100%;
+    z-index: 1;
+}
+
+.providers-content {
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.providers-content h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgb(122, 105, 231);
+}
+
+.providers-content>input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 15px;
+    background: #1a1a1a;
+    color: white;
+    box-sizing: border-box;
+}
+
+.providers-content form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.providers-content form input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #1a1a1a;
+    color: white;
+}
+
+.providers-content button {
+    background-color: rgb(81, 61, 211);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.providers-content button:hover {
+    background-color: rgb(122, 105, 231);
+}
+
+.provider-card {
+    background: #161616;
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.provider-card p {
+    flex: 1;
+    margin: 0;
+    color: white;
+}
+
+.provider-card button {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .providers-content {
+        padding: 15px;
+    }
+
+    .providers-content form {
+        flex-direction: column;
+    }
+
+    .providers-content form input,
+    .providers-content form button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+.confirmar-eliminar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.confirmar-eliminar span {
+    color: #aaa;
+    font-size: 0.9rem;
+}
