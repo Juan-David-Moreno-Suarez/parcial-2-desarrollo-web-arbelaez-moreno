@@ -19,19 +19,23 @@
 .categories-content {
     padding: 40px;
 }
+.categories-content input {
+    flex: 1;
+    min-width: 120px;
 
+    padding: 10px;
+
+    border-radius: 10px;
+    border: none;
+
+    background: #1a1a1a;
+    color: white;
+}
 .categories-content h1 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.categories-content input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    margin-bottom: 15px;
-}
 
 .categories-content form {
     display: flex;
@@ -41,15 +45,6 @@
 
 .categories-content form input {
     flex: 1;
-}
-
-.categories-content button {
-    background-color: rgb(81, 61, 211);
-    border: none;
-    border-radius: 10px;
-    padding: 8px 12px;
-    color: white;
-    cursor: pointer;
 }
 
 .categories-content button:hover {
