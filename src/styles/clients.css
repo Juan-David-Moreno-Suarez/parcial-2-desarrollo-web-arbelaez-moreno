@@ -4,6 +4,18 @@
     display: flex;
     flex-direction: column;
 }
+.clients-content form input {
+    flex: 1;
+    min-width: 120px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+    border: none;
+
+    background: #1a1a1a;
+    color: white;
+}
 
 .clients-container header {
     position: sticky;
@@ -109,5 +121,4 @@
     .category-card {
         width: 100%;
     }
-
 }

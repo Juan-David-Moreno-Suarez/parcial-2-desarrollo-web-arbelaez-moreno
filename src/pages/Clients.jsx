@@ -57,10 +57,14 @@ export default function Clients() {
     )
 
     return (
-        <main>
-            <header>
-                <Navbar />
-            </header>
+    <main className="clients-container">
+
+        <header>
+            <Navbar />
+        </header>
+
+        <section className="clients-content">
+
             <h1>Clientes</h1>
 
             <input
@@ -71,26 +75,44 @@ export default function Clients() {
 
             <form onSubmit={handleSubmit}>
                 <input name="nombre" placeholder="Nombre" required />
+
                 <input
                     name="email"
                     placeholder="Email"
                     defaultValue={editing?.email || ''}
                 />
-                <input name="telefono" placeholder="Teléfono" />
-                <button>{editing ? "Guardar cambios" : "Crear cliente"}</button>
+
+                <input
+                    name="telefono"
+                    placeholder="Teléfono"
+                    defaultValue={editing?.telefono || ''}
+                />
+
+                <button>
+                    {editing ? "Guardar cambios" : "Crear cliente"}
+                </button>
             </form>
 
             {filtrados.map(c => (
-                <div key={c.id}>
+                <div key={c.id} className="client-card">
+
                     <p>{c.nombre}</p>
                     <p>{c.email}</p>
                     <p>{c.telefono}</p>
 
-                    <button onClick={() => setEditing(c)}>Editar</button>
-                    <button onClick={() => eliminar(c.id)}>Eliminar</button>
+                    <button onClick={() => setEditing(c)}>
+                        Editar
+                    </button>
+
+                    <button onClick={() => eliminar(c.id)}>
+                        Eliminar
+                    </button>
+
                 </div>
             ))}
 
-        </main>
+        </section>
+
+    </main>
     )
 }
