@@ -29,7 +29,7 @@ function Catalogue() {
   }, [])
 
   function editarProducto(id) {
-
+    navigate(`/editProduct/${id}`)
   }
 
   async function eliminarProducto(id, name) {
