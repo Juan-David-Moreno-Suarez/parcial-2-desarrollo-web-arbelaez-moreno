@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { safeArray, guardarProductos, guardarCarrito } from '../hooks/useLocalStorage'
 import '../styles/catalogue.css'
 import Navbar from '../components/Navbar'
@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 function Catalogue() {
   const [productos, setProductos] = useState(safeArray('productos'))
   const [busqueda, setBusqueda] = useState('')
+  const navigate = useNavigate();
 
   const productosFiltrados = productos.filter(p =>
     p.nombre.toLowerCase().includes(busqueda.toLowerCase())
@@ -85,7 +86,7 @@ function Catalogue() {
 
       <section id="productos">
         <h1>Catálogo de productos</h1>
-        <button onClick={crearProductoRapido} id="agregarProducto">
+        <button onClick={() => navigate('/newProduct')} id="agregarProducto">
           <span>+</span>
           <span>Agregar un producto</span>
         </button>

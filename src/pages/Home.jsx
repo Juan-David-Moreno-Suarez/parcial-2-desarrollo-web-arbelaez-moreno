@@ -1,14 +1,9 @@
 import { Link } from 'react-router-dom'
 import '../styles/style.css'
 import { useEffect } from 'react'
+import CategoryList from '../components/APIComponents'
 
 function Home() {
-    useEffect(() => {
-    document.getElementById('root').classList.add('home')
-    return () => {
-      document.getElementById('root').classList.remove('home')
-    }
-  }, [])
     return (
         <div className='home-content'>
             <img src="/img/logo.png" alt="Logo" />
