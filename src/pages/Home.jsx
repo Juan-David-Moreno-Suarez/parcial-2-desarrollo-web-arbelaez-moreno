@@ -35,6 +35,10 @@ function Home() {
                     <i className="fa fa-user fa-2x"></i>
                     Clientes
                 </Link>
+                <Link to="/purchase">
+                    <i className="fa fa-money fa-2x"></i>
+                    Abastecer
+                </Link>
             </nav>
         </div>
     )

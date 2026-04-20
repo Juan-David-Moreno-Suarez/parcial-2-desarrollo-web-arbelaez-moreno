@@ -1,13 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { safeArray, guardarCarrito, guardarProductos } from '../hooks/useLocalStorage'
+import { safeArray, guardarCarrito } from '../hooks/useLocalStorage'
+import { fetchResource } from '../services/api'
 import Navbar from '../components/Navbar'
 import '../styles/cart.css'
 
 function Cart() {
     const [productos, setProductos] = useState([])
     const [carrito, setCarrito] = useState(safeArray('carrito'))
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        async function cargarProductos() {
+            const data = await fetchResource(1)
+            setProductos(data.filter(p => Number(p.stock) > 0))
+            setLoading(false)
+        }
+        cargarProductos()
+    }, [])
 
     const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0)
 
@@ -35,11 +46,9 @@ function Cart() {
     }
 
     function cambiarCantidad(id, delta) {
-        const producto = productos.find(p => p.id === id)
         let nuevoCarrito = carrito.map(i => {
             if (i.id !== id) return i
-            const nuevaCantidad = i.cantidad + delta
-            return { ...i, cantidad: nuevaCantidad }
+            return { ...i, cantidad: i.cantidad + delta }
         })
 
         nuevoCarrito = nuevoCarrito.filter(i => {
@@ -68,18 +77,24 @@ function Cart() {
                 <article>
                     <h2>Productos disponibles</h2>
                     <section id="catalogo">
-                        {productos.map(producto => (
-                            <article key={producto.id}>
-                                <img src={producto.imagen || '/public/img/logo.png'} width="100" alt={producto.nombre} />
-                                <h4>{producto.nombre}</h4>
-                                <p>{producto.descripcion}</p>
-                                <strong>${producto.precio}</strong>
-                                <button onClick={() => agregarAlCarrito(producto.id)}>
-                                    <i className="fa fa-cart-plus"></i>
-                                    Agregar al carrito
-                                </button>
-                            </article>
-                        ))}
+                        {loading ? (
+                            <p>Cargando...</p>
+                        ) : productos.length === 0 ? (
+                            <p>Sin productos disponibles</p>
+                        ) : (
+                            productos.map(producto => (
+                                <article key={producto.id}>
+                                    <img src={producto.imagen || '/public/img/logo.png'} width="100" alt={producto.nombre} />
+                                    <h4>{producto.nombre}</h4>
+                                    <p>{producto.descripcion}</p>
+                                    <strong>${producto.precio}</strong>
+                                    <button onClick={() => agregarAlCarrito(producto.id)}>
+                                        <i className="fa fa-cart-plus"></i>
+                                        Agregar al carrito
+                                    </button>
+                                </article>
+                            ))
+                        )}
                     </section>
                 </article>
                 <article>

@@ -16,47 +16,45 @@ h1 {
 }
 
 .cart-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .cart-container header {
-  position: sticky;
-  top: 0;
-  background-color: black;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  height: 100px;
-  width: 100%;
-  z-index: 1;
-
+    position: sticky;
+    top: 0;
+    background-color: black;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 100px;
+    width: 100%;
+    z-index: 1;
 }
 
-
 header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 header nav section {
-  display: flex;
-  width: 40%;
-  height: 40px;
-  background-color: white;
-  overflow: hidden;
-  border-radius: 10px;
-  padding-left: 20px;
-  box-shadow: 4px 3px black;
+    display: flex;
+    width: 40%;
+    height: 40px;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 10px;
+    padding-left: 20px;
+    box-shadow: 4px 3px black;
 }
 
 header nav section:hover {
-  border: 2px solid rgb(81, 61, 211);
+    border: 2px solid rgb(81, 61, 211);
 }
 
 header a {
@@ -82,6 +80,7 @@ header a:hover {
 main {
     display: flex;
     gap: 10%;
+    padding: 20px;
 }
 
 main button {
@@ -100,11 +99,21 @@ main button:hover {
     filter: drop-shadow(0 5px 5px rgba(156, 146, 248, 0.6));
 }
 
-#catalogo,
-#carrito {
+#catalogo {
+    display: flex;
+    flex-direction: column;
     gap: 30px;
     padding: 10px;
     width: 300px;
+}
+
+#carrito {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 10px;
+    max-width: 900px;
+    margin: 0 auto 40px;
 }
 
 #catalogo article,
@@ -157,13 +166,6 @@ main button:hover {
     margin-bottom: 14px;
 }
 
-#carrito {
-    display: flex;
-    flex-direction: column;
-    max-width: 900px;
-    margin: 0 auto 40px;
-}
-
 .carrito-item {
     display: flex;
     gap: 10px;
@@ -192,7 +194,8 @@ main button:hover {
 .carrito-controls button:hover {
     background-color: rgb(122, 105, 231);
 }
-/* ===== CELULARES ===== */
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
     body {
@@ -203,19 +206,39 @@ main button:hover {
         padding: 0 10px;
     }
 
-    header nav {
+    main {
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px;
+    }
+
+    #carrito {
+        order: 1;
+        width: 100%;
+    }
+
+    #catalogo {
+        order: 2;
+        width: 100%;
+        display: flex;
         flex-direction: column;
         gap: 15px;
+    }
+
+    #catalogo article,
+    #carrito article {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #catalogo article img {
+        height: 150px;
     }
 
     .carrito-item {
         flex-direction: column;
         gap: 10px;
     }
-}
-
-/* ===== ICONOS ===== */
-@media (max-width: 768px) {
 
     header nav {
         flex-direction: row;
@@ -227,28 +250,6 @@ main button:hover {
     }
 
     header a p {
-        font-size: 10px;
-    }
-
-    header a p {
         display: none;
-    }
-}
-/* ===== MOBILE FIX CARRITO ===== */
-@media (max-width: 768px) {
-
-    main {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    #carrito {
-        order: 1; /* 🔥 primero el carrito */
-        width: 100%;
-    }
-
-    #catalogo {
-        order: 2; /* 🔥 luego productos */
-        width: 100%;
     }
 }

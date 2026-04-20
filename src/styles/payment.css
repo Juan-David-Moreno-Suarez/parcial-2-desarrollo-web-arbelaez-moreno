@@ -84,3 +84,26 @@ a {
         display: none;
     }
 }
+
+#metodos-pago {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#metodos-pago button {
+    width: 200px;
+    background-color: #1a1a1a;
+    border: 2px solid transparent;
+}
+
+#metodos-pago button:hover {
+    background-color: #2a2a2a;
+    transform: none;
+}
+
+.metodo-activo {
+    border: 2px solid rgb(122, 105, 231) !important;
+    background-color: #2a1f6e !important;
+}
