@@ -10,13 +10,14 @@ function SaleHistory() {
     const [ventas, setVentas] = useState([])
     const [compras, setCompras] = useState([])
     const [loading, setLoading] = useState(true)
+
     const [ventasAbiertas, setVentasAbiertas] = useState({})
     const [comprasAbiertas, setComprasAbiertas] = useState({})
+
     const [modalVenta, setModalVenta] = useState(null)
     const [metodoPago, setMetodoPago] = useState('')
     const [loadingPago, setLoadingPago] = useState(false)
 
-    // 🔥 NUEVO
     const [filtroPago, setFiltroPago] = useState('Todos')
 
     useEffect(() => {
@@ -43,7 +44,11 @@ function SaleHistory() {
 
     function parseItems(v) {
         if (Array.isArray(v.itemsJson)) return v.itemsJson
-        try { return JSON.parse(v.itemsJson) } catch { return [] }
+        try {
+            return JSON.parse(v.itemsJson)
+        } catch {
+            return []
+        }
     }
 
     function abrirModal(venta) {
@@ -57,39 +62,61 @@ function SaleHistory() {
     }
 
     async function confirmarPago() {
+
         if (!metodoPago) {
-            Toastify({ text: 'Selecciona un método de pago', duration: 2000, style: { background: '#ca222a' } }).showToast()
+            Toastify({
+                text: 'Selecciona un método de pago',
+                duration: 2000,
+                style: { background: '#ca222a' }
+            }).showToast()
             return
         }
 
         try {
             setLoadingPago(true)
+
             await updateResource(2, {
                 ...modalVenta,
                 metodoPago
             })
+
             await cargarHistorial()
             cerrarModal()
+
             Toastify({
                 text: 'Pago registrado ✔',
                 duration: 3000,
                 close: true,
                 gravity: 'top',
                 position: 'center',
-                style: { background: 'linear-gradient(to right, #7c3aed, #a855f7)' }
+                style: {
+                    background: 'linear-gradient(to right, #7c3aed, #a855f7)'
+                }
             }).showToast()
+
         } catch {
-            Toastify({ text: 'Error al registrar el pago', duration: 2000, style: { background: '#ca222a' } }).showToast()
+            Toastify({
+                text: 'Error al registrar el pago',
+                duration: 2000,
+                style: { background: '#ca222a' }
+            }).showToast()
         } finally {
             setLoadingPago(false)
         }
     }
+
     const ventasFiltradas = ventas.filter(v => {
         if (filtroPago === 'Todos') return true
         return v.metodoPago === filtroPago
     })
 
-    if (loading) return <p style={{ color: '#888', textAlign: 'center', marginTop: '40px' }}>Cargando...</p>
+    if (loading) {
+        return (
+            <p style={{ color: '#888', textAlign: 'center', marginTop: '40px' }}>
+                Cargando...
+            </p>
+        )
+    }
 
     return (
         <main className='sale-container'>
@@ -102,6 +129,7 @@ function SaleHistory() {
             {modalVenta && (
                 <div className="modal-overlay" onClick={cerrarModal}>
                     <div className="modal" onClick={e => e.stopPropagation()}>
+
                         <h2>Registrar pago</h2>
 
                         <div className="modal-items">
@@ -129,15 +157,18 @@ function SaleHistory() {
                         <button onClick={confirmarPago}>
                             {loadingPago ? 'Procesando...' : 'Confirmar pago'}
                         </button>
-                        <button onClick={cerrarModal}>Cancelar</button>
+
+                        <button onClick={cerrarModal}>
+                            Cancelar
+                        </button>
+
                     </div>
                 </div>
             )}
 
-            {/* ===== VENTAS ===== */}
             <h1>Historial de ventas</h1>
 
-            {/* == FILTROS UI == */} 
+            {/* ===== FILTROS ===== */}
             <div className="filtros">
                 {['Todos', 'Efectivo', 'Nequi', 'Debe'].map(f => (
                     <button
@@ -150,13 +181,19 @@ function SaleHistory() {
                 ))}
             </div>
 
+            {/* ===== VENTAS ===== */}
             <section id="historial">
+
                 {ventasFiltradas.length === 0 ? (
                     <p>No hay ventas</p>
                 ) : (
                     ventasFiltradas.map(v => {
+
                         const items = parseItems(v)
                         const isDebe = v.metodoPago === 'Debe'
+                        const total = Number(v.total ??0)
+                        const totalPagado = Number(v.totalPagado ?? v.total ?? 0)
+                        const vueltas = Number((totalPagado-total) ?? 0)
 
                         return (
                             <div key={v.id} className="venta">
@@ -171,32 +208,48 @@ function SaleHistory() {
                                 {ventasAbiertas[v.id] && (
                                     <div>
                                         {items.map((i, index) => (
-                                            <p key={index}>{i.nombre} x{i.cantidad}</p>
+                                            <p key={index}>
+                                                {i.nombre} x{i.cantidad}
+                                            </p>
                                         ))}
                                     </div>
                                 )}
 
-                                <p>Total: ${v.total}</p>
+                                <p>Total: ${Number(v.total).toLocaleString()}</p>
+
+                                <p>
+                                    Total pagado: ${totalPagado.toLocaleString()}
+                                </p>
+
+                                <p>
+                                    Vuelto: ${vueltas.toLocaleString()}
+                                </p>
 
                                 {isDebe && (
                                     <button onClick={() => abrirModal(v)}>
                                         Pagar
                                     </button>
                                 )}
+
                             </div>
                         )
                     })
                 )}
+
             </section>
 
             {/* ===== COMPRAS ===== */}
             <h1 style={{ marginTop: '40px' }}>Historial de compras</h1>
 
             <section id="historial">
+
                 {compras.map(c => {
+
                     const items = parseItems(c)
+
                     return (
                         <div key={c.id} className="venta">
+
                             <p>{c.fecha}</p>
 
                             <button onClick={() => toggleDetallesCompra(c.id)}>
@@ -206,15 +259,19 @@ function SaleHistory() {
                             {comprasAbiertas[c.id] && (
                                 <div>
                                     {items.map((i, index) => (
-                                        <p key={index}>{i.nombre} x{i.cantidad}</p>
+                                        <p key={index}>
+                                            {i.nombre} x{i.cantidad}
+                                        </p>
                                     ))}
                                 </div>
                             )}
 
-                            <p>Total: ${c.total}</p>
+                            <p>Total: ${Number(c.total).toLocaleString()}</p>
+
                         </div>
                     )
                 })}
+
             </section>
 
         </main>
