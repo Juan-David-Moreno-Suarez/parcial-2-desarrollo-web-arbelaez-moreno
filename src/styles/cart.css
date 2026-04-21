@@ -15,6 +15,7 @@ h1 {
     color: rgb(81, 61, 211);
 }
 
+/* CONTENEDOR */
 .cart-container {
     height: 100%;
     width: 100%;
@@ -22,6 +23,7 @@ h1 {
     flex-direction: column;
 }
 
+/* HEADER */
 .cart-container header {
     position: sticky;
     top: 0;
@@ -30,16 +32,15 @@ h1 {
     border-bottom-right-radius: 20px;
     height: 100px;
     width: 100%;
-    z-index: 1;
+    z-index: 10;
 }
 
+/* NAV */
 header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 20px 50px;
 }
 
 header nav section {
@@ -77,12 +78,14 @@ header a:hover {
     filter: drop-shadow(0 15px 30px rgba(156, 146, 248, 0.6));
 }
 
+/* MAIN DESKTOP */
 main {
     display: flex;
     gap: 10%;
     padding: 20px;
 }
 
+/* BOTONES */
 main button {
     background-color: rgb(81, 61, 211);
     color: white;
@@ -99,6 +102,7 @@ main button:hover {
     filter: drop-shadow(0 5px 5px rgba(156, 146, 248, 0.6));
 }
 
+/* CATALOGO */
 #catalogo {
     display: flex;
     flex-direction: column;
@@ -107,6 +111,7 @@ main button:hover {
     width: 300px;
 }
 
+/* CARRITO */
 #carrito {
     display: flex;
     flex-direction: column;
@@ -116,6 +121,7 @@ main button:hover {
     margin: 0 auto 40px;
 }
 
+/* CARDS */
 #catalogo article,
 #carrito article {
     background: #161616;
@@ -133,6 +139,7 @@ main button:hover {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
 }
 
+/* IMAGENES */
 #catalogo article img,
 #carrito article img {
     width: 100%;
@@ -141,12 +148,12 @@ main button:hover {
     background: #222;
 }
 
+/* TEXTOS */
 #catalogo article h4,
 #carrito article h4 {
     margin: 16px;
     font-size: 18px;
     font-weight: 600;
-    text-align: center;
 }
 
 #catalogo article p,
@@ -154,18 +161,16 @@ main button:hover {
     margin: 0 16px 12px;
     font-size: 14px;
     color: #ccc;
-    text-align: center;
-    flex-grow: 1;
 }
 
 #catalogo article strong,
 #carrito article strong {
     display: block;
-    text-align: center;
     font-size: 18px;
     margin-bottom: 14px;
 }
 
+/* ITEM CARRITO */
 .carrito-item {
     display: flex;
     gap: 10px;
@@ -174,6 +179,7 @@ main button:hover {
 
 .carrito-info {
     flex: 1;
+    text-align: left;
 }
 
 .carrito-controls {
@@ -183,19 +189,13 @@ main button:hover {
 }
 
 .carrito-controls button {
-    background-color: rgb(81, 61, 211);
-    color: white;
-    border: 0;
-    border-radius: 8px;
     padding: 5px 10px;
-    cursor: pointer;
+    border-radius: 8px;
 }
 
-.carrito-controls button:hover {
-    background-color: rgb(122, 105, 231);
-}
-
-/* ===== MOBILE ===== */
+/* ========================= */
+/* 📱 MOBILE */
+/* ========================= */
 @media (max-width: 768px) {
 
     body {
@@ -206,40 +206,77 @@ main button:hover {
         padding: 0 10px;
     }
 
+    /* 🔥 LAYOUT */
     main {
+        display: flex;
         flex-direction: column;
         gap: 20px;
         padding: 10px;
     }
 
-    #carrito {
+    /* 🔥 CARrito ARRIBA */
+    main > article:last-child {
         order: 1;
-        width: 100%;
     }
 
-    #catalogo {
+    /* 🔥 PRODUCTOS ABAJO */
+    main > article:first-child {
         order: 2;
+        max-height: 55vh;
+        overflow-y: auto;
+    }
+
+    /* CATALOGO */
+    #catalogo {
         width: 100%;
-        display: flex;
-        flex-direction: column;
         gap: 15px;
     }
 
-    #catalogo article,
-    #carrito article {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    #catalogo article img {
-        height: 150px;
-    }
-
-    .carrito-item {
-        flex-direction: column;
+    /* COMPACTAR PRODUCTOS */
+    #catalogo article {
+        flex-direction: row;
+        align-items: center;
         gap: 10px;
     }
 
+    #catalogo article img {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+    }
+
+    #catalogo article h4 {
+        font-size: 14px;
+        margin: 0;
+        text-align: left;
+    }
+
+    #catalogo article p {
+        display: none;
+    }
+
+    #catalogo article strong {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    /* CARRITO */
+    #carrito {
+        width: 100%;
+    }
+
+    .carrito-item {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .carrito-item img {
+        width: 70px;
+        height: 70px;
+        border-radius: 10px;
+    }
+
+    /* NAV */
     header nav {
         flex-direction: row;
         justify-content: space-around;
@@ -251,5 +288,166 @@ main button:hover {
 
     header a p {
         display: none;
+    }
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 1024px) {
+
+    header nav {
+        padding: 15px 20px;
+        gap: 10px;
+    }
+
+    header nav section {
+        width: 50%;
+    }
+
+    #searchBar {
+        font-size: 16px;
+    }
+}
+
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+    header nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    /* 🔥 ICONOS ARRIBA */
+    header a {
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+    }
+
+    header a i {
+        font-size: 20px;
+    }
+
+    header a p {
+        font-size: 10px;
+    }
+
+    /* 🔥 BUSCADOR ABAJO FULL WIDTH */
+    header nav section {
+        order: 2;
+        width: 100%;
+        height: 40px;
+    }
+
+    #searchBar {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    #searchButton i {
+        font-size: 16px;
+    }
+}
+
+
+/* ===== CELULARES PEQUEÑOS ===== */
+@media (max-width: 480px) {
+
+    /* 🔥 SOLO ICONOS (sin texto) */
+    header a p {
+        display: none;
+    }
+
+    header a i {
+        font-size: 18px;
+    }
+
+    /* 🔥 BUSCADOR MÁS COMPACTO */
+    header nav section {
+        height: 35px;
+    }
+
+    #searchBar {
+        font-size: 13px;
+    }
+}
+
+
+@media (max-width: 260px) {
+
+    header nav {
+        flex-direction: column; /* 🔥 CAMBIO CLAVE */
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    /* 🔥 ICONOS EN UNA FILA SEPARADA */
+    header nav > a {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    /* 🔥 WRAPPER PARA ICONOS */
+    header nav {
+        display: flex;
+    }
+
+    /* 🔥 FORZAR ICONOS EN GRID */
+    header nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        align-items: center;
+    }
+
+    /* 🔥 BUSCADOR ABAJO */
+    header nav section {
+        grid-column: span 4;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: 32px;
+    }
+
+    /* ICONOS */
+    header a {
+        flex-direction: column;
+    }
+
+    header a i {
+        font-size: 16px !important;
+    }
+
+    header a p {
+        display: none;
+    }
+}
+
+@media (max-width: 180px) {
+
+    header nav {
+        grid-template-columns: repeat(2, 1fr); /* 🔥 2 por fila */
+    }
+
+    header nav section {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 120px) {
+
+    header nav {
+        grid-template-columns: 1fr; /* 🔥 1 columna */
+    }
+
+    header nav section {
+        display: none; /* 🔥 ya no cabe */
+    }
+
+    header a i {
+        font-size: 14px !important;
     }
 }

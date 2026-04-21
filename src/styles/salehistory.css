@@ -124,3 +124,163 @@ div.venta {
         display: none;
     }
 }
+
+/* ===== TABLET ===== */
+@media (max-width: 1024px) {
+
+    header nav {
+        padding: 15px 20px;
+        gap: 10px;
+    }
+
+    header nav section {
+        width: 50%;
+    }
+
+    #searchBar {
+        font-size: 16px;
+    }
+}
+
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+    header nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    /* 🔥 ICONOS ARRIBA */
+    header a {
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+    }
+
+    header a i {
+        font-size: 20px;
+    }
+
+    header a p {
+        font-size: 10px;
+    }
+
+    /* 🔥 BUSCADOR ABAJO FULL WIDTH */
+    header nav section {
+        order: 2;
+        width: 100%;
+        height: 40px;
+    }
+
+    #searchBar {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    #searchButton i {
+        font-size: 16px;
+    }
+}
+
+
+/* ===== CELULARES PEQUEÑOS ===== */
+@media (max-width: 480px) {
+
+    /* 🔥 SOLO ICONOS (sin texto) */
+    header a p {
+        display: none;
+    }
+
+    header a i {
+        font-size: 18px;
+    }
+
+    /* 🔥 BUSCADOR MÁS COMPACTO */
+    header nav section {
+        height: 35px;
+    }
+
+    #searchBar {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 260px) {
+
+    header nav {
+        flex-direction: column; /* 🔥 CAMBIO CLAVE */
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    /* 🔥 ICONOS EN UNA FILA SEPARADA */
+    header nav > a {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    /* 🔥 WRAPPER PARA ICONOS */
+    header nav {
+        display: flex;
+    }
+
+    /* 🔥 FORZAR ICONOS EN GRID */
+    header nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        align-items: center;
+    }
+
+    /* 🔥 BUSCADOR ABAJO */
+    header nav section {
+        grid-column: span 4;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        height: 32px;
+    }
+
+    /* ICONOS */
+    header a {
+        flex-direction: column;
+    }
+
+    header a i {
+        font-size: 16px !important;
+    }
+
+    header a p {
+        display: none;
+    }
+}
+
+@media (max-width: 180px) {
+
+    header nav {
+        grid-template-columns: repeat(2, 1fr); /* 🔥 2 por fila */
+    }
+
+    header nav section {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 120px) {
+
+    header nav {
+        grid-template-columns: 1fr; /* 🔥 1 columna */
+    }
+
+    header nav section {
+        display: none; /* 🔥 ya no cabe */
+    }
+
+    header a i {
+        font-size: 14px !important;
+    }
+}
