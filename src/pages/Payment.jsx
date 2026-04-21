@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { safeArray, guardarCarrito } from '../hooks/useLocalStorage'
 import { fetchResource, updateResource, postResource } from '../services/api'
@@ -14,86 +14,54 @@ function Payment() {
     const [loading, setLoading] = useState(false)
     const [clientes, setClientes] = useState([])
     const [selectedCliente, setSelectedCliente] = useState('')
+    const toastRef = useRef(null)
 
     const total = carrito.reduce((s, i) => s + Number(i.precio) * i.cantidad, 0)
 
     useEffect(() => {
-        function cargarClientes() {
-            fetchResource(4).then(setClientes).catch(() => setClientes([]))
+        fetchResource(4).then(setClientes).catch(() => setClientes([]))
+        return () => {
+            if (toastRef.current) toastRef.current.hideToast()
         }
-        cargarClientes()
-        window.addEventListener('focus', cargarClientes)
-        return () => window.removeEventListener('focus', cargarClientes)
     }, [])
 
-    function preguntarPagoEfectivo(total) {
-        return new Promise((resolve) => {
+    function cerrarToast() {
+        if (toastRef.current) {
+            toastRef.current.hideToast()
+            toastRef.current = null
+        }
+    }
 
-            const container = document.createElement('div')
-            container.innerHTML = `
-                <div style="display:flex;flex-direction:column;gap:10px;">
-                    <span>Total: $${total.toLocaleString()}</span>
-                    <input type="number" placeholder="¿Con cuánto paga?" style="padding:8px;border-radius:8px;border:none;" />
-                    <button style="background:#7c3aed;color:white;border:none;padding:8px;border-radius:8px;cursor:pointer;">
-                        Confirmar
-                    </button>
-                </div>
-            `
+    async function flujoEfectivo() {
+        cerrarToast()
 
-            const input = container.querySelector('input')
-            const button = container.querySelector('button')
+        toastRef.current = Toastify({
+            text: `Total: $${total.toLocaleString()} | Ingresa con cuánto paga`,
+            duration: -1,
+            close: true,
+            gravity: 'top',
+            position: 'center',
+            stopOnFocus: true,
+            style: { background: '#1a1a1a' },
+            onClick: () => {
+                const pago = prompt('¿Con cuánto paga el cliente?')
+                if (!pago) return cerrarToast()
 
-            const toast = Toastify({
-                node: container,
-                duration: -1,
-                gravity: 'top',
-                position: 'center',
-                close: false,
-                stopOnFocus: true,
-                style: {
-                    background: '#111',
-                    border: '1px solid #333'
-                }
-            })
-
-            button.onclick = () => {
-                const pago = Number(input.value)
-
-                if (!pago || pago <= 0) {
-                    Toastify({
-                        text: 'Ingresa un monto válido',
-                        duration: 2000,
-                        style: { background: '#ca222a' }
-                    }).showToast()
-                    return
-                }
-
-                if (pago < total) {
-                    Toastify({
-                        text: `Faltan $${(total - pago).toLocaleString()}`,
-                        duration: 3000,
-                        style: { background: '#ca222a' }
-                    }).showToast()
-                    return
-                }
-
-                const vueltas = pago - total
-
+                const vuelto = Number(pago) - total
                 Toastify({
-                    text: `Vueltas: $${vueltas.toLocaleString()}`,
-                    duration: 3000,
-                    style: { background: '#16a34a' }
+                    text: vuelto >= 0
+                        ? `Cambio: $${vuelto.toLocaleString()}`
+                        : `Faltan: $${Math.abs(vuelto).toLocaleString()}`,
+                    duration: 4000,
+                    style: { background: vuelto >= 0 ? '#16a34a' : '#ca222a' }
                 }).showToast()
-
-                toast.hideToast()
-                resolve(true)
             }
-
-            toast.showToast()
-        })
+        }).showToast()
     }
 
     async function finalizarVenta() {
+
+        cerrarToast()
 
         if (carrito.length === 0) {
             Toastify({ text: 'El carrito está vacío', duration: 2000, style: { background: '#ca222a' } }).showToast()
@@ -105,16 +73,12 @@ function Payment() {
             return
         }
 
+        if (metodoPago === 'Efectivo') {
+            flujoEfectivo()
+        }
+
         try {
             setLoading(true)
-
-            if (metodoPago === 'Efectivo') {
-                const ok = await preguntarPagoEfectivo(total)
-                if (!ok) {
-                    setLoading(false)
-                    return
-                }
-            }
 
             let finalClienteId = selectedCliente.trim() !== ''
                 ? selectedCliente.trim()
@@ -188,7 +152,10 @@ function Payment() {
                     <button
                         key={m}
                         className={metodoPago === m ? 'metodo-activo' : ''}
-                        onClick={() => setMetodoPago(m)}
+                        onClick={() => {
+                            cerrarToast()
+                            setMetodoPago(m)
+                        }}
                         type="button"
                     >
                         {m}
@@ -207,7 +174,10 @@ function Payment() {
                         <option key={i} value={c.id}>{c.id}</option>
                     ))}
                 </select>
-                <button type="button" onClick={() => navigate('/clients')}>
+                <button type="button" onClick={() => {
+                    cerrarToast()
+                    navigate('/clients')
+                }}>
                     + Agregar nuevo cliente
                 </button>
             </section>
@@ -216,7 +186,10 @@ function Payment() {
                 {loading ? 'Procesando...' : 'Confirmar pago'}
             </button>
 
-            <button onClick={() => navigate(-1)} disabled={loading}>
+            <button onClick={() => {
+                cerrarToast()
+                navigate(-1)
+            }} disabled={loading}>
                 Volver
             </button>
         </main>
