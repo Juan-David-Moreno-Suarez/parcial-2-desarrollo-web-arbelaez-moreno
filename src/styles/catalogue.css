@@ -529,3 +529,21 @@ header a:hover {
         font-size: 14px !important;
     }
 }
+
+@media (max-width: 768px) {
+
+    #catalogo article section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 8px;
+        width: 100%;
+    }
+
+    #catalogo article section button {
+        flex: 1;
+        min-width: 90px;
+        font-size: 12px;
+        padding: 6px;
+    }
+}

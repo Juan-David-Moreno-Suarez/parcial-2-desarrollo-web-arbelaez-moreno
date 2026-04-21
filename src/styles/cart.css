@@ -222,7 +222,8 @@ main button:hover {
 
     #catalogo {
         width: 100%;
-        gap: 15px;
+        margin: 0;
+
     }
     #catalogo article {
         flex-direction: row;
@@ -250,7 +251,6 @@ main button:hover {
         font-size: 14px;
         margin: 0;
     }
-
     #carrito {
         width: 100%;
     }
@@ -394,6 +394,7 @@ main button:hover {
         height: 32px;
     }
 
+    /* ICONOS */
     header a {
         flex-direction: column;
     }
