@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/providers.css'
-import { Link } from "react-router-dom"
 
 export default function Providers() {
 
@@ -15,6 +15,7 @@ export default function Providers() {
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [confirmandoId, setConfirmandoId] = useState(null)
     const [formData, setFormData] = useState({ nombre: '', telefono: '' })
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadProviders()
@@ -91,10 +92,12 @@ export default function Providers() {
     return (
         <main className="providers-container">
             <header>
-                <Link to="/">
-                    <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                    <h2>Volver</h2>
-                </Link>
+                <section>
+                    <button type="button" onClick={() => navigate(-1)}>
+                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                        <h2>Volver</h2>
+                    </button>
+                </section>
             </header>
 
             <div className="providers-content">

@@ -6,9 +6,19 @@ import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import { useState } from "react"
 
+function normalize(str) {
+    return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+}
+
 export default function NewProduct() {
 
     const [loading, setLoading] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState("")
+    const [customCategory, setCustomCategory] = useState("")
     const navigate = useNavigate()
 
     async function handleSubmit(data) {
@@ -28,18 +38,53 @@ export default function NewProduct() {
                 gravity: 'top',
                 position: 'center',
                 stopOnFocus: true,
-                style: {
-                    background: 'linear-gradient(to right, #ca222a, #dd50a2)',
-                }
+                style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
             }).showToast()
             setLoading(false)
             return
         }
+
         try {
+            const rawCategory = customCategory.trim() !== ""
+                ? customCategory.trim()
+                : selectedCategory.trim()
+
+            if (!rawCategory) {
+                Toastify({
+                    text: `Debes seleccionar o ingresar una categoría`,
+                    duration: 3000,
+                    close: true,
+                    gravity: 'top',
+                    position: 'center',
+                    stopOnFocus: true,
+                    style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
+                }).showToast()
+                setLoading(false)
+                return
+            }
+
+            const categoriesData = await fetchResource(6)
+            const matchingCategory = categoriesData.find(
+                c => normalize(c.nombre) === normalize(rawCategory)
+            )
+
+            let finalCategory
+            if (matchingCategory) {
+                finalCategory = matchingCategory.nombre
+            } else {
+                const newCategory = {
+                    id: crypto.randomUUID(),
+                    nombre: rawCategory,
+                    fecha_creacion: new Date().toLocaleString()
+                }
+                await postResource(6, newCategory)
+                finalCategory = rawCategory
+            }
+
             const inputData = {
                 id: crypto.randomUUID(),
                 nombre: formData.get('nombre'),
-                categoria: formData.get('categoria'),
+                categoria: finalCategory,
                 descripcion: formData.get('descripcion'),
                 precio: formData.get('precio'),
                 imagen: formData.get('imagen'),
@@ -48,8 +93,9 @@ export default function NewProduct() {
                 fecha_creacion: new Date().toLocaleString()
             }
 
-            await postResource(1, inputData);
+            await postResource(1, inputData)
             navigate('/catalogue')
+
         } catch (error) {
             Toastify({
                 text: `Error al crear el producto`,
@@ -58,14 +104,11 @@ export default function NewProduct() {
                 gravity: 'top',
                 position: 'center',
                 stopOnFocus: true,
-                style: {
-                    background: 'linear-gradient(to right, #ca222a, #dd50a2)',
-                }
+                style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
             }).showToast()
         } finally {
             setLoading(false)
         }
-
     }
 
     return (
@@ -89,7 +132,19 @@ export default function NewProduct() {
 
                     <section className="form-group">
                         <label>Categoría: </label>
-                        <CategoryList />
+                        <CategoryList
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        />
+                    </section>
+
+                    <section className="form-group">
+                        <label>O ingresa una nueva categoría: </label>
+                        <input
+                            placeholder="Nueva categoría..."
+                            value={customCategory}
+                            onChange={(e) => setCustomCategory(e.target.value)}
+                        />
                     </section>
 
                     <section className="form-group">
@@ -119,7 +174,9 @@ export default function NewProduct() {
                         <input name="stock" type="number" required />
                     </section>
 
-                    <button type="submit" disabled={loading} >{loading ? 'Guardando...' : 'Crear producto'}</button>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Guardando...' : 'Crear producto'}
+                    </button>
                 </form>
             </main>
         </section>

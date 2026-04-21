@@ -63,6 +63,17 @@ function Catalogue() {
       carrito.push({ ...producto, cantidad: 1 })
     }
     guardarCarrito(carrito)
+    Toastify({
+      text: `${producto.nombre} agregado al carrito`,
+      duration: 2000,
+      close: true,
+      gravity: 'top',
+      position: 'center',
+      stopOnFocus: true,
+      style: {
+        background: 'linear-gradient(to right, #7922ca, #8d50dd)',
+      }
+    }).showToast()
   }
 
   return (

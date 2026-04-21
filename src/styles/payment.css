@@ -42,6 +42,7 @@ a {
     font-size: 16px;
     transition: color 0.3s ease;
 }
+
 /* ===== CELULARES ===== */
 @media (max-width: 768px) {
 
@@ -106,4 +107,38 @@ a {
 .metodo-activo {
     border: 2px solid rgb(122, 105, 231) !important;
     background-color: #2a1f6e !important;
+}
+
+#cliente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+#cliente p {
+    margin: 0;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+#cliente select,
+#cliente input {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #1a1a1a;
+    color: white;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#cliente select {
+    appearance: none;
+    cursor: pointer;
+}
+
+#cliente select option {
+    background-color: #1a1a1a;
+    color: white;
 }

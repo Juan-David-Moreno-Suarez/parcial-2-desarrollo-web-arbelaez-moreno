@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/clients.css'
@@ -15,6 +15,7 @@ export default function Clients() {
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [confirmandoId, setConfirmandoId] = useState(null)
     const [formData, setFormData] = useState({ nombre: '', email: '', telefono: '' })
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadClients()
@@ -92,10 +93,10 @@ export default function Clients() {
     return (
         <div className="clients-container">
             <header>
-                <Link to="/">
+                <button onClick={() => navigate(-1)}>
                     <i className="fa fa-arrow-left" aria-hidden="true"></i>
                     <h2>Volver</h2>
-                </Link>
+                </button>
             </header>
 
             <div className="clients-content">

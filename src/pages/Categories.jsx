@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
@@ -15,6 +15,7 @@ export default function Categories() {
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [confirmandoId, setConfirmandoId] = useState(null)
     const [formData, setFormData] = useState({ nombre: '' })
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadCategories()
@@ -90,10 +91,12 @@ export default function Categories() {
     return (
         <div className="categories-container">
             <header>
-                <Link to="/">
-                    <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                    <h2>Volver</h2>
-                </Link>
+                <section>
+                    <button type="button" onClick={() => navigate(-1)}>
+                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                        <h2>Volver</h2>
+                    </button>
+                </section>
             </header>
 
             <div className="categories-content">

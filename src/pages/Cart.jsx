@@ -20,7 +20,7 @@ function Cart() {
         cargarProductos()
     }, [])
 
-    const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0)
+    const total = carrito.reduce((s, i) => s + Number(i.precio) * i.cantidad, 0)
 
     function agregarAlCarrito(id) {
         const producto = productos.find(p => p.id === id)
@@ -30,7 +30,7 @@ function Cart() {
         const item = nuevoCarrito.find(i => i.id === id)
 
         if (item) {
-            if (item.cantidad < producto.stock) item.cantidad++
+            if (item.cantidad < Number(producto.stock)) item.cantidad++
         } else {
             nuevoCarrito.push({
                 id: producto.id,
@@ -54,7 +54,7 @@ function Cart() {
         nuevoCarrito = nuevoCarrito.filter(i => {
             if (i.id !== id) return true
             const prod = productos.find(p => p.id === i.id)
-            return i.cantidad > 0 && prod && i.cantidad <= prod.stock
+            return i.cantidad > 0 && prod && i.cantidad <= Number(prod.stock)
         })
 
         setCarrito(nuevoCarrito)
@@ -84,10 +84,10 @@ function Cart() {
                         ) : (
                             productos.map(producto => (
                                 <article key={producto.id}>
-                                    <img src={producto.imagen || '/public/img/logo.png'} width="100" alt={producto.nombre} />
+                                    <img src={producto.imagen || '/img/logo.png'} width="100" alt={producto.nombre} />
                                     <h4>{producto.nombre}</h4>
                                     <p>{producto.descripcion}</p>
-                                    <strong>${producto.precio}</strong>
+                                    <strong>${Number(producto.precio).toLocaleString()}</strong>
                                     <button onClick={() => agregarAlCarrito(producto.id)}>
                                         <i className="fa fa-cart-plus"></i>
                                         Agregar al carrito
@@ -104,15 +104,14 @@ function Cart() {
                             <p>El carrito está vacío</p>
                         ) : (
                             carrito.map(item => {
-                                const producto = productos.find(p => p.id === item.id)
-                                const subtotal = item.precio * item.cantidad
+                                const subtotal = Number(item.precio) * item.cantidad
                                 return (
                                     <article key={item.id} className="carrito-item">
-                                        <img src={producto?.imagen} alt={item.nombre} />
+                                        <img src={item.imagen || '/img/logo.png'} alt={item.nombre} />
                                         <div className="carrito-info">
                                             <h4>{item.nombre}</h4>
-                                            <p>C/U: ${item.precio}</p>
-                                            <p><strong>Subtotal: ${subtotal}</strong></p>
+                                            <p>C/U: ${Number(item.precio).toLocaleString()}</p>
+                                            <p><strong>Subtotal: ${subtotal.toLocaleString()}</strong></p>
                                         </div>
                                         <div className="carrito-controls">
                                             <button onClick={() => cambiarCantidad(item.id, -1)}>−</button>
@@ -125,7 +124,7 @@ function Cart() {
                             })
                         )}
                     </section>
-                    <h3>Total: ${total}</h3>
+                    <h3>Total: ${total.toLocaleString()}</h3>
                     <button onClick={() => navigate('/payment')}>Ir a pago</button>
                 </article>
             </main>

@@ -1,286 +1,327 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body,
 #root {
-  background-color: #111;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    background-color: #111;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    height: 100%;
 }
 
 h1 {
-  text-align: center;
-}
-
-main {
-  margin: 0;
-  padding: 0;
+    text-align: center;
+    color: rgb(122, 105, 231);
+    padding: 20px 0 10px;
 }
 
 .sale-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .sale-container header {
-  position: sticky;
-  top: 0;
-  background-color: black;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  height: 100px;
-  width: 100%;
-  z-index: 1;
-
+    position: sticky;
+    top: 0;
+    background-color: black;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 100px;
+    width: 100%;
+    z-index: 1;
 }
 
-header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
-}
-
-header nav section {
-  display: flex;
-  width: 40%;
-  height: 40px;
-  background-color: white;
-  overflow: hidden;
-  border-radius: 10px;
-  padding-left: 20px;
-  box-shadow: 4px 3px black;
-}
-
-header nav section:hover {
-  border: 2px solid rgb(81, 61, 211);
-}
-
+/* ===== HISTORIAL ===== */
 #historial {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: rgb(190, 184, 172);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 40px;
 }
 
+/* ===== CARD ===== */
 div.venta {
-  margin: 20px auto;
-  width: 80%;
-  background-color: #1f1f1f;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-/* ===== CELULARES ===== */
-@media (max-width: 768px) {
-
-    body {
-        align-items: flex-start;
-    }
-
-    .cart-container {
-        padding: 0 10px;
-    }
-
-    header nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .carrito-item {
-        flex-direction: column;
-        gap: 10px;
-    }
+    margin: 12px auto;
+    width: 80%;
+    max-width: 700px;
+    background-color: #1a1a1a;
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    border: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border 0.2s;
 }
 
-/* ===== ICONOS ===== */
-@media (max-width: 768px) {
-
-    header nav {
-        flex-direction: row;
-        justify-content: space-around;
-    }
-
-    header a i {
-        font-size: 18px;
-    }
-
-    header a p {
-        font-size: 10px;
-    }
-
-    header a p {
-        display: none;
-    }
+div.venta-debe {
+    border: 1px solid rgba(220, 80, 80, 0.4);
+    background-color: #1e1414;
 }
 
-/* ===== TABLET ===== */
-@media (max-width: 1024px) {
-
-    header nav {
-        padding: 15px 20px;
-        gap: 10px;
-    }
-
-    header nav section {
-        width: 50%;
-    }
-
-    #searchBar {
-        font-size: 16px;
-    }
+/* ===== HEADER DE CARD ===== */
+.venta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
+.venta-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.venta-fecha {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.venta-cliente {
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+/* ===== BADGE ===== */
+.badge {
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pagado {
+    background-color: #1a3a2a;
+    color: #4caf82;
+    border: 1px solid #2d6b4a;
+}
+
+.badge-debe {
+    background-color: #3a1a1a;
+    color: #e07070;
+    border: 1px solid #8b3a3a;
+}
+
+/* ===== BODY DE CARD ===== */
+.venta-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.label {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.item-detalles {
+    background-color: #111;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.detalle-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #ccc;
+    padding: 4px 0;
+    border-bottom: 1px solid #222;
+}
+
+.detalle-row:last-child {
+    border-bottom: none;
+}
+
+/* ===== FOOTER DE CARD ===== */
+.venta-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 12px;
+}
+
+.venta-total {
+    font-size: 1rem;
+    color: rgb(122, 105, 231);
+}
+
+/* ===== BOTONES ===== */
+.btn-detalles {
+    background: none;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    width: fit-content;
+    transition: border 0.2s, color 0.2s;
+}
+
+.btn-detalles:hover {
+    border-color: rgb(122, 105, 231);
+    color: white;
+}
+
+.btn-pagar {
+    background-color: rgb(81, 61, 211);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn-pagar:hover {
+    background-color: rgb(122, 105, 231);
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 30px;
+    width: 90%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal h2 {
+    color: rgb(122, 105, 231);
+    text-align: center;
+}
+
+.modal-cliente {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.modal-items {
+    background: #111;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #ccc;
+    padding: 4px 0;
+    border-bottom: 1px solid #222;
+}
+
+.modal-item:last-child {
+    border-bottom: none;
+}
+
+.modal-total {
+    font-size: 1rem;
+    color: rgb(122, 105, 231);
+    text-align: right;
+}
+
+.modal-metodos {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.modal-metodos button {
+    background-color: #2a2a2a;
+    border: 2px solid transparent;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border 0.2s, background-color 0.2s;
+}
+
+.modal-metodos button:hover {
+    background-color: #333;
+}
+
+.modal-metodos .metodo-activo {
+    border: 2px solid rgb(122, 105, 231);
+    background-color: #2a1f6e;
+}
+
+.modal-acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-confirmar {
+    flex: 1;
+    background-color: rgb(81, 61, 211);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-confirmar:hover {
+    background-color: rgb(122, 105, 231);
+}
+
+.btn-confirmar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-cancelar {
+    flex: 1;
+    background-color: #2a2a2a;
+    color: #aaa;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-cancelar:hover {
+    background-color: #333;
+}
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-
-    header nav {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    /* 🔥 ICONOS ARRIBA */
-    header a {
-        flex-direction: column;
-        gap: 3px;
-        flex: 1;
-    }
-
-    header a i {
-        font-size: 20px;
-    }
-
-    header a p {
-        font-size: 10px;
-    }
-
-    /* 🔥 BUSCADOR ABAJO FULL WIDTH */
-    header nav section {
-        order: 2;
-        width: 100%;
-        height: 40px;
-    }
-
-    #searchBar {
-        font-size: 14px;
-        padding: 5px;
-    }
-
-    #searchButton i {
-        font-size: 16px;
-    }
-}
-
-
-/* ===== CELULARES PEQUEÑOS ===== */
-@media (max-width: 480px) {
-
-    /* 🔥 SOLO ICONOS (sin texto) */
-    header a p {
-        display: none;
-    }
-
-    header a i {
-        font-size: 18px;
-    }
-
-    /* 🔥 BUSCADOR MÁS COMPACTO */
-    header nav section {
-        height: 35px;
-    }
-
-    #searchBar {
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 260px) {
-
-    header nav {
-        flex-direction: column; /* 🔥 CAMBIO CLAVE */
-        align-items: center;
-        gap: 8px;
-        padding: 8px;
-    }
-
-    /* 🔥 ICONOS EN UNA FILA SEPARADA */
-    header nav > a {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-    }
-
-    /* 🔥 WRAPPER PARA ICONOS */
-    header nav {
-        display: flex;
-    }
-
-    /* 🔥 FORZAR ICONOS EN GRID */
-    header nav {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 6px;
-        align-items: center;
-    }
-
-    /* 🔥 BUSCADOR ABAJO */
-    header nav section {
-        grid-column: span 4;
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        height: 32px;
-    }
-
-    /* ICONOS */
-    header a {
-        flex-direction: column;
-    }
-
-    header a i {
-        font-size: 16px !important;
-    }
-
-    header a p {
-        display: none;
-    }
-}
-
-@media (max-width: 180px) {
-
-    header nav {
-        grid-template-columns: repeat(2, 1fr); /* 🔥 2 por fila */
-    }
-
-    header nav section {
-        grid-column: span 2;
-    }
-}
-
-@media (max-width: 120px) {
-
-    header nav {
-        grid-template-columns: 1fr; /* 🔥 1 columna */
-    }
-
-    header nav section {
-        display: none; /* 🔥 ya no cabe */
-    }
-
-    header a i {
-        font-size: 14px !important;
+    div.venta {
+        width: 95%;
+        padding: 16px;
     }
 }
