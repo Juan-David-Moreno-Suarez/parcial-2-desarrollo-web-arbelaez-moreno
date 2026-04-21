@@ -273,7 +273,6 @@ header a:hover {
     }
 }
 
-/* ===== ICONOS ===== */
 @media (max-width: 768px) {
 
     header nav {
@@ -347,7 +346,7 @@ header a:hover {
     }
 
     #catalogo article p {
-        display: none; /* 🔥 quita ruido */
+        display: none; 
     }
 
     #catalogo article strong {
@@ -364,18 +363,15 @@ header a:hover {
         padding: 10px;
     }
 
-    /* 🔥 CARRITO PRIMERO SIEMPRE */
     #carrito {
         order: 1;
         width: 100%;
     }
 
-    /* 🔥 CATÁLOGO DESPUÉS */
     #catalogo {
         order: 2;
         width: 100%;
 
-        /* 👇 CLAVE: no dejar que crezca infinito */
         max-height: 60vh;
         overflow-y: auto;
 
@@ -410,7 +406,6 @@ header a:hover {
         gap: 10px;
     }
 
-    /* 🔥 ICONOS ARRIBA */
     header a {
         flex-direction: column;
         gap: 3px;
@@ -425,7 +420,6 @@ header a:hover {
         font-size: 10px;
     }
 
-    /* 🔥 BUSCADOR ABAJO FULL WIDTH */
     header nav section {
         order: 2;
         width: 100%;
@@ -443,10 +437,8 @@ header a:hover {
 }
 
 
-/* ===== CELULARES PEQUEÑOS ===== */
 @media (max-width: 480px) {
 
-    /* 🔥 SOLO ICONOS (sin texto) */
     header a p {
         display: none;
     }
@@ -455,7 +447,6 @@ header a:hover {
         font-size: 18px;
     }
 
-    /* 🔥 BUSCADOR MÁS COMPACTO */
     header nav section {
         height: 35px;
     }
@@ -469,25 +460,22 @@ header a:hover {
 @media (max-width: 260px) {
 
     header nav {
-        flex-direction: column; /* 🔥 CAMBIO CLAVE */
+        flex-direction: column; 
         align-items: center;
         gap: 8px;
         padding: 8px;
     }
 
-    /* 🔥 ICONOS EN UNA FILA SEPARADA */
     header nav > a {
         display: flex;
         justify-content: space-around;
         width: 100%;
     }
 
-    /* 🔥 WRAPPER PARA ICONOS */
     header nav {
         display: flex;
     }
 
-    /* 🔥 FORZAR ICONOS EN GRID */
     header nav {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -495,7 +483,6 @@ header a:hover {
         align-items: center;
     }
 
-    /* 🔥 BUSCADOR ABAJO */
     header nav section {
         grid-column: span 4;
         width: 100%;
@@ -504,7 +491,6 @@ header a:hover {
         height: 32px;
     }
 
-    /* ICONOS */
     header a {
         flex-direction: column;
     }
@@ -521,7 +507,7 @@ header a:hover {
 @media (max-width: 180px) {
 
     header nav {
-        grid-template-columns: repeat(2, 1fr); /* 🔥 2 por fila */
+        grid-template-columns: repeat(2, 1fr);
     }
 
     header nav section {
@@ -532,11 +518,11 @@ header a:hover {
 @media (max-width: 120px) {
 
     header nav {
-        grid-template-columns: 1fr; /* 🔥 1 columna */
+        grid-template-columns: 1fr;
     }
 
     header nav section {
-        display: none; /* 🔥 ya no cabe */
+        display: none;
     }
 
     header a i {

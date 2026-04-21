@@ -16,6 +16,9 @@ function SaleHistory() {
     const [metodoPago, setMetodoPago] = useState('')
     const [loadingPago, setLoadingPago] = useState(false)
 
+    // 🔥 NUEVO
+    const [filtroPago, setFiltroPago] = useState('Todos')
+
     useEffect(() => {
         cargarHistorial()
     }, [])
@@ -81,6 +84,10 @@ function SaleHistory() {
             setLoadingPago(false)
         }
     }
+    const ventasFiltradas = ventas.filter(v => {
+        if (filtroPago === 'Todos') return true
+        return v.metodoPago === filtroPago
+    })
 
     if (loading) return <p style={{ color: '#888', textAlign: 'center', marginTop: '40px' }}>Cargando...</p>
 
@@ -91,24 +98,21 @@ function SaleHistory() {
                 <Navbar />
             </header>
 
-            {/* ===== MODAL PAGO ===== */}
+            {/* ===== MODAL ===== */}
             {modalVenta && (
                 <div className="modal-overlay" onClick={cerrarModal}>
                     <div className="modal" onClick={e => e.stopPropagation()}>
                         <h2>Registrar pago</h2>
-                        <p className="modal-cliente">Cliente: <strong>{modalVenta.clienteId || 'Sin cliente'}</strong></p>
 
                         <div className="modal-items">
                             {parseItems(modalVenta).map((i, index) => (
-                                <div key={index} className="modal-item">
-                                    <span>{i.nombre}</span>
-                                    <span>x{i.cantidad}</span>
-                                    <span>${Number(i.precio).toLocaleString()}</span>
+                                <div key={index}>
+                                    {i.nombre} x{i.cantidad}
                                 </div>
                             ))}
                         </div>
 
-                        <p className="modal-total">Total: <strong>${Number(modalVenta.total).toLocaleString()}</strong></p>
+                        <p>Total: ${Number(modalVenta.total).toLocaleString()}</p>
 
                         <div className="modal-metodos">
                             {['Efectivo', 'Nequi'].map(m => (
@@ -116,21 +120,16 @@ function SaleHistory() {
                                     key={m}
                                     className={metodoPago === m ? 'metodo-activo' : ''}
                                     onClick={() => setMetodoPago(m)}
-                                    type="button"
                                 >
                                     {m}
                                 </button>
                             ))}
                         </div>
 
-                        <div className="modal-acciones">
-                            <button onClick={confirmarPago} disabled={loadingPago} className="btn-confirmar">
-                                {loadingPago ? 'Procesando...' : 'Confirmar pago'}
-                            </button>
-                            <button onClick={cerrarModal} disabled={loadingPago} className="btn-cancelar">
-                                Cancelar
-                            </button>
-                        </div>
+                        <button onClick={confirmarPago}>
+                            {loadingPago ? 'Procesando...' : 'Confirmar pago'}
+                        </button>
+                        <button onClick={cerrarModal}>Cancelar</button>
                     </div>
                 </div>
             )}
@@ -138,55 +137,52 @@ function SaleHistory() {
             {/* ===== VENTAS ===== */}
             <h1>Historial de ventas</h1>
 
+            {/* == FILTROS UI == */} 
+            <div className="filtros">
+                {['Todos', 'Efectivo', 'Nequi', 'Debe'].map(f => (
+                    <button
+                        key={f}
+                        className={filtroPago === f ? 'activo' : ''}
+                        onClick={() => setFiltroPago(f)}
+                    >
+                        {f}
+                    </button>
+                ))}
+            </div>
+
             <section id="historial">
-                {ventas.length === 0 ? (
-                    <p>No hay ventas registradas</p>
+                {ventasFiltradas.length === 0 ? (
+                    <p>No hay ventas</p>
                 ) : (
-                    ventas.map(v => {
+                    ventasFiltradas.map(v => {
                         const items = parseItems(v)
                         const isDebe = v.metodoPago === 'Debe'
+
                         return (
-                            <div key={v.id} className={`venta ${isDebe ? 'venta-debe' : ''}`}>
-                                <div className="venta-header">
-                                    <div className="venta-header-left">
-                                        <span className="venta-fecha">{v.fecha}</span>
-                                        <span className="venta-cliente">
-                                            {v.clienteId && v.clienteId !== 'Sin cliente'
-                                                ? `👤 ${v.clienteId}`
-                                                : 'Sin cliente'}
-                                        </span>
+                            <div key={v.id} className="venta">
+
+                                <p>{v.fecha}</p>
+                                <p>{v.metodoPago}</p>
+
+                                <button onClick={() => toggleDetallesVenta(v.id)}>
+                                    {ventasAbiertas[v.id] ? 'Ocultar' : 'Ver'}
+                                </button>
+
+                                {ventasAbiertas[v.id] && (
+                                    <div>
+                                        {items.map((i, index) => (
+                                            <p key={index}>{i.nombre} x{i.cantidad}</p>
+                                        ))}
                                     </div>
-                                    <span className={`badge ${isDebe ? 'badge-debe' : 'badge-pagado'}`}>
-                                        {v.metodoPago}
-                                    </span>
-                                </div>
+                                )}
 
-                                <div className="venta-body">
-                                    <button className="btn-detalles" onClick={() => toggleDetallesVenta(v.id)}>
-                                        {ventasAbiertas[v.id] ? 'Ocultar detalles' : 'Ver detalles'}
+                                <p>Total: ${v.total}</p>
+
+                                {isDebe && (
+                                    <button onClick={() => abrirModal(v)}>
+                                        Pagar
                                     </button>
-
-                                    {ventasAbiertas[v.id] && (
-                                        <div className="item-detalles">
-                                            {items.map((i, index) => (
-                                                <div key={index} className="detalle-row">
-                                                    <span>{i.nombre}</span>
-                                                    <span>x{i.cantidad}</span>
-                                                    <span>${Number(i.precio).toLocaleString()}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="venta-footer">
-                                    <strong className="venta-total">Total: ${Number(v.total).toLocaleString()}</strong>
-                                    {isDebe && (
-                                        <button className="btn-pagar" onClick={() => abrirModal(v)}>
-                                            💳 Pagar ahora
-                                        </button>
-                                    )}
-                                </div>
+                                )}
                             </div>
                         )
                     })
@@ -197,53 +193,28 @@ function SaleHistory() {
             <h1 style={{ marginTop: '40px' }}>Historial de compras</h1>
 
             <section id="historial">
-                {compras.length === 0 ? (
-                    <p>No hay compras registradas</p>
-                ) : (
-                    compras.map(c => {
-                        const items = parseItems(c)
-                        return (
-                            <div key={c.id} className="venta">
-                                <div className="venta-header">
-                                    <div className="venta-header-left">
-                                        <span className="venta-fecha">{c.fecha}</span>
-                                        <span className="venta-cliente">
-                                            {c.proveedorId && c.proveedorId !== 'Sin proveedor'
-                                                ? `🏭 ${c.proveedorId}`
-                                                : 'Sin proveedor'}
-                                        </span>
-                                    </div>
-                                </div>
+                {compras.map(c => {
+                    const items = parseItems(c)
+                    return (
+                        <div key={c.id} className="venta">
+                            <p>{c.fecha}</p>
 
-                                <div className="venta-body">
-                                    <button className="btn-detalles" onClick={() => toggleDetallesCompra(c.id)}>
-                                        {comprasAbiertas[c.id] ? 'Ocultar detalles' : 'Ver detalles'}
-                                    </button>
+                            <button onClick={() => toggleDetallesCompra(c.id)}>
+                                {comprasAbiertas[c.id] ? 'Ocultar' : 'Ver'}
+                            </button>
 
-                                    {comprasAbiertas[c.id] && (
-                                        <div className="item-detalles">
-                                            {items.length === 0 ? (
-                                                <p style={{ color: '#888', fontSize: '0.85rem' }}>Sin detalle de items</p>
-                                            ) : (
-                                                items.map((i, index) => (
-                                                    <div key={index} className="detalle-row">
-                                                        <span>{i.nombre}</span>
-                                                        <span>x{i.cantidad}</span>
-                                                        <span>${Number(i.costo).toLocaleString()} c/u</span>
-                                                    </div>
-                                                ))
-                                            )}
-                                        </div>
-                                    )}
+                            {comprasAbiertas[c.id] && (
+                                <div>
+                                    {items.map((i, index) => (
+                                        <p key={index}>{i.nombre} x{i.cantidad}</p>
+                                    ))}
                                 </div>
+                            )}
 
-                                <div className="venta-footer">
-                                    <strong className="venta-total">Total: ${Number(c.total || 0).toLocaleString()}</strong>
-                                </div>
-                            </div>
-                        )
-                    })
-                )}
+                            <p>Total: ${c.total}</p>
+                        </div>
+                    )
+                })}
             </section>
 
         </main>

@@ -6,14 +6,6 @@ import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/payment.css'
 
-function normalize(str) {
-    return str
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-}
-
 function Payment() {
 
     const navigate = useNavigate()
@@ -34,6 +26,73 @@ function Payment() {
         return () => window.removeEventListener('focus', cargarClientes)
     }, [])
 
+    function preguntarPagoEfectivo(total) {
+        return new Promise((resolve) => {
+
+            const container = document.createElement('div')
+            container.innerHTML = `
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <span>Total: $${total.toLocaleString()}</span>
+                    <input type="number" placeholder="¿Con cuánto paga?" style="padding:8px;border-radius:8px;border:none;" />
+                    <button style="background:#7c3aed;color:white;border:none;padding:8px;border-radius:8px;cursor:pointer;">
+                        Confirmar
+                    </button>
+                </div>
+            `
+
+            const input = container.querySelector('input')
+            const button = container.querySelector('button')
+
+            const toast = Toastify({
+                node: container,
+                duration: -1,
+                gravity: 'top',
+                position: 'center',
+                close: false,
+                stopOnFocus: true,
+                style: {
+                    background: '#111',
+                    border: '1px solid #333'
+                }
+            })
+
+            button.onclick = () => {
+                const pago = Number(input.value)
+
+                if (!pago || pago <= 0) {
+                    Toastify({
+                        text: 'Ingresa un monto válido',
+                        duration: 2000,
+                        style: { background: '#ca222a' }
+                    }).showToast()
+                    return
+                }
+
+                if (pago < total) {
+                    Toastify({
+                        text: `Faltan $${(total - pago).toLocaleString()}`,
+                        duration: 3000,
+                        style: { background: '#ca222a' }
+                    }).showToast()
+                    return
+                }
+
+                const vueltas = pago - total
+
+                Toastify({
+                    text: `Vueltas: $${vueltas.toLocaleString()}`,
+                    duration: 3000,
+                    style: { background: '#16a34a' }
+                }).showToast()
+
+                toast.hideToast()
+                resolve(true)
+            }
+
+            toast.showToast()
+        })
+    }
+
     async function finalizarVenta() {
 
         if (carrito.length === 0) {
@@ -48,7 +107,15 @@ function Payment() {
 
         try {
             setLoading(true)
-           
+
+            if (metodoPago === 'Efectivo') {
+                const ok = await preguntarPagoEfectivo(total)
+                if (!ok) {
+                    setLoading(false)
+                    return
+                }
+            }
+
             let finalClienteId = selectedCliente.trim() !== ''
                 ? selectedCliente.trim()
                 : 'Sin cliente'
@@ -85,6 +152,7 @@ function Payment() {
                 metodoPago,
                 fecha: new Date().toLocaleString()
             }
+
             await postResource(2, nuevaVenta)
 
             guardarCarrito([])

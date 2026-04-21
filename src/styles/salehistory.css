@@ -325,3 +325,24 @@ div.venta-debe {
         padding: 16px;
     }
 }
+
+.filtros {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filtros button {
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.filtros button.activo {
+    background: rgb(81, 61, 211);
+}
