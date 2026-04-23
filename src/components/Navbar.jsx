@@ -7,12 +7,10 @@ export default function Navbar() {
                 <i className="fa fa-home fa-3x"></i>
                 <p>Inicio</p>
             </Link>
-            <section>
-                <input id="searchBar" name="search" placeholder="Buscar productos" />
-                <button id="searchButton">
-                    <i className="fa fa-search fa-2x" aria-hidden="true"></i>
-                </button>
-            </section>
+            <Link to="/catalogue">
+                <i className="fa fa-archive fa-3x"></i>
+                <p>Catálogo</p>
+            </Link>
             <Link to="/salehistory">
                 <i className="fa fa-history fa-3x" aria-hidden="true"></i>
                 <p>Historial</p>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { safeArray, guardarProductos, guardarCarrito } from '../hooks/useLocalStorage'
+import { useNavigate } from 'react-router-dom'
+import { safeArray, guardarCarrito } from '../hooks/useLocalStorage'
 import '../styles/catalogue.css'
 import Navbar from '../components/Navbar'
 import { deleteResource, fetchResource } from '../services/api'
@@ -13,7 +13,8 @@ function Catalogue() {
   const [confirmandoId, setConfirmandoId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingDelete, setLoadingDelete] = useState(false)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   const productosFiltrados = productos.filter(p =>
     p.nombre.toLowerCase().includes(busqueda.toLowerCase())
   )
@@ -45,11 +46,8 @@ function Catalogue() {
       gravity: 'top',
       position: 'center',
       stopOnFocus: true,
-      style: {
-        background: 'linear-gradient(to right, #7922ca, #8d50dd)',
-      }
+      style: { background: 'linear-gradient(to right, #7922ca, #8d50dd)' }
     }).showToast()
-
   }
 
   function agregarAlCarrito(id) {
@@ -70,9 +68,7 @@ function Catalogue() {
       gravity: 'top',
       position: 'center',
       stopOnFocus: true,
-      style: {
-        background: 'linear-gradient(to right, #7922ca, #8d50dd)',
-      }
+      style: { background: 'linear-gradient(to right, #7922ca, #8d50dd)' }
     }).showToast()
   }
 
@@ -84,18 +80,33 @@ function Catalogue() {
 
       <section id="productos">
         <h1>Catálogo de productos</h1>
-        <button onClick={() => navigate('/newProduct')} id="agregarProducto">
-          <span>+</span>
-          <span>Agregar un producto</span>
-        </button>
+
+        <div id="catalogo-header">
+          <button onClick={() => navigate('/newProduct')} id="agregarProducto">
+            <span>+</span>
+            <span>Agregar un producto</span>
+          </button>
+          <input
+            id="buscador"
+            type="text"
+            placeholder="Buscar producto..."
+            value={busqueda}
+            onChange={e => setBusqueda(e.target.value)}
+          />
+        </div>
+
         <section id="catalogo">
-          {loading ? "Cargando..." :
+          {loading ? (
+            <p>Cargando...</p>
+          ) : productosFiltrados.length === 0 ? (
+            <p>No se encontraron productos</p>
+          ) : (
             productosFiltrados.map(producto => (
               <article key={producto.id}>
                 <img src={producto.imagen || '/img/logo.png'} width="100" alt={producto.nombre} />
                 <h4>{producto.nombre}</h4>
                 <p>{producto.descripcion}</p>
-                <strong>${producto.precio}</strong>
+                <strong>${Number(producto.precio).toLocaleString()}</strong>
                 <section>
                   <button onClick={() => agregarAlCarrito(producto.id)}>
                     <i className="fa fa-cart-plus"></i>
@@ -108,7 +119,9 @@ function Catalogue() {
                   {confirmandoId === producto.id ? (
                     <section className="confirmar-eliminar">
                       <span>¿Eliminar?</span>
-                      <button disabled={loadingDelete} onClick={() => eliminarProducto(producto.id, producto.nombre)}>{loadingDelete ? "Cargando" : "Sí"}</button>
+                      <button disabled={loadingDelete} onClick={() => eliminarProducto(producto.id, producto.nombre)}>
+                        {loadingDelete ? "Cargando" : "Sí"}
+                      </button>
                       <button disabled={loadingDelete} onClick={() => setConfirmandoId(null)}>No</button>
                     </section>
                   ) : (
@@ -119,7 +132,8 @@ function Catalogue() {
                   )}
                 </section>
               </article>
-            ))}
+            ))
+          )}
         </section>
       </section>
     </main>
