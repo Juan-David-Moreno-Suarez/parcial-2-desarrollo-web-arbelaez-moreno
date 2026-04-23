@@ -28,7 +28,7 @@
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    color: rgb(122, 105, 231);
+    color: rgb(163, 141, 253);
     font-weight: bold;
     padding: 0 20px;
     height: 100%;
@@ -49,7 +49,7 @@
 }
 
 .form-container h3 {
-    color: rgb(122, 105, 231);
+    color: rgb(163, 141, 253);
     margin: 10px 0;
     text-align: center;
 }
@@ -112,7 +112,7 @@
 }
 
 .form-container button[type="submit"]:hover {
-    background-color: rgb(122, 105, 231);
+    background-color: rgb(163, 141, 253);
 }
 
 .form-container button[type="submit"]:disabled {

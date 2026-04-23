@@ -14,7 +14,7 @@ body,
 
 h1 {
     text-align: center;
-    color: rgb(122, 105, 231);
+    color: rgb(163, 141, 253);
     padding: 20px 0 10px;
 }
 
@@ -156,7 +156,8 @@ div.venta-debe {
 
 .venta-total {
     font-size: 1rem;
-    color: rgb(122, 105, 231);
+    color:  rgb(163, 141, 253
+    );;
 }
 
 /* ===== BOTONES ===== */
@@ -173,7 +174,7 @@ div.venta-debe {
 }
 
 .btn-detalles:hover {
-    border-color: rgb(122, 105, 231);
+    border-color: rgb(163, 141, 253);
     color: white;
 }
 
@@ -189,7 +190,7 @@ div.venta-debe {
 }
 
 .btn-pagar:hover {
-    background-color: rgb(122, 105, 231);
+    background-color: rgb(163, 141, 253);
 }
 
 /* ===== MODAL ===== */
@@ -216,7 +217,7 @@ div.venta-debe {
 }
 
 .modal h2 {
-    color: rgb(122, 105, 231);
+    color: rgb(163, 141, 253);
     text-align: center;
 }
 
@@ -249,7 +250,7 @@ div.venta-debe {
 
 .modal-total {
     font-size: 1rem;
-    color: rgb(122, 105, 231);
+    color: rgb(163, 141, 253);
     text-align: right;
 }
 
@@ -274,7 +275,7 @@ div.venta-debe {
 }
 
 .modal-metodos .metodo-activo {
-    border: 2px solid rgb(122, 105, 231);
+    border: 2px solid rgb(163, 141, 253);
     background-color: #2a1f6e;
 }
 
@@ -295,7 +296,7 @@ div.venta-debe {
 }
 
 .btn-confirmar:hover {
-    background-color: rgb(122, 105, 231);
+    background-color: rgb(163, 141, 253);
 }
 
 .btn-confirmar:disabled {
