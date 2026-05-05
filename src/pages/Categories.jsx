@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { fetchResource, postResource, updateResource, deleteResource } from "../services/api"
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/categories.css'
+
+import { getCategories, createCategory, editCategory, removeCategory } from '../controllers/categories.controller'
+import { handleError } from '../middlewares/errorHandler'
 
 export default function Categories() {
 
@@ -15,6 +17,7 @@ export default function Categories() {
     const [loadingDelete, setLoadingDelete] = useState(false)
     const [confirmandoId, setConfirmandoId] = useState(null)
     const [formData, setFormData] = useState({ nombre: '' })
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -22,10 +25,15 @@ export default function Categories() {
     }, [])
 
     async function loadCategories() {
-        setLoading(true)
-        const data = await fetchResource(6)
-        setCategories(data)
-        setLoading(false)
+        try {
+            setLoading(true)
+            const data = await getCategories()
+            setCategories(data)
+        } catch (e) {
+            handleError(e)
+        } finally {
+            setLoading(false)
+        }
     }
 
     function handleEditar(c) {
@@ -46,42 +54,45 @@ export default function Categories() {
             nombre: formData.nombre
         }
 
-        if (!editing) {
-            const existe = categories.some(
-                c => c.nombre.trim().toLowerCase() === data.nombre.trim().toLowerCase()
-            )
-            if (existe) {
-                Toastify({ text: "Esta categoría ya existe", duration: 3000, style: { background: "#c0392b" } }).showToast()
-                return
-            }
-        }
-
         try {
             setLoadingSave(true)
+
             if (editing) {
-                await updateResource(6, data)
+                await editCategory(data)
                 Toastify({ text: "Categoría editada", duration: 2000 }).showToast()
             } else {
-                await postResource(6, data)
+                await createCategory(data, categories)
                 Toastify({ text: "Categoría creada", duration: 2000 }).showToast()
             }
+
             setEditing(null)
             setFormData({ nombre: '' })
             loadCategories()
-        } catch {
-            Toastify({ text: "Error", duration: 2000 }).showToast()
+
+        } catch (e) {
+            handleError(e)
         } finally {
             setLoadingSave(false)
         }
     }
 
     async function eliminar(id, nombre) {
-        setLoadingDelete(true)
-        await deleteResource(6, id)
-        await loadCategories()
-        setConfirmandoId(null)
-        setLoadingDelete(false)
-        Toastify({ text: `Se ha eliminado la categoría ${nombre}`, duration: 2000 }).showToast()
+        try {
+            setLoadingDelete(true)
+            await removeCategory(id)
+            await loadCategories()
+            setConfirmandoId(null)
+
+            Toastify({
+                text: `Se ha eliminado la categoría ${nombre}`,
+                duration: 2000
+            }).showToast()
+
+        } catch (e) {
+            handleError(e)
+        } finally {
+            setLoadingDelete(false)
+        }
     }
 
     const filtrados = categories.filter(c =>
@@ -93,7 +104,7 @@ export default function Categories() {
             <header>
                 <section>
                     <button type="button" onClick={() => navigate(-1)}>
-                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                        <i className="fa fa-arrow-left"></i>
                         <h2>Volver</h2>
                     </button>
                 </section>
@@ -110,17 +121,18 @@ export default function Categories() {
 
                 <form onSubmit={handleSubmit}>
                     <input
-                        name="nombre"
                         placeholder="Nombre categoría"
                         value={formData.nombre}
                         onChange={e => setFormData({ nombre: e.target.value })}
                         required
                     />
-                    <button type="submit" disabled={loadingSave}>
+
+                    <button disabled={loadingSave}>
                         {loadingSave ? "Guardando..." : editing ? "Guardar" : "Crear"}
                     </button>
+
                     {editing && (
-                        <button type="button" onClick={handleCancelar} disabled={loadingSave}>
+                        <button type="button" onClick={handleCancelar}>
                             Cancelar
                         </button>
                     )}
@@ -134,20 +146,24 @@ export default function Categories() {
                     filtrados.map(c => (
                         <div className="category-card" key={c.id}>
                             <p>{c.nombre}</p>
+
                             <div className="category-actions">
                                 <button onClick={() => handleEditar(c)}>Editar</button>
+
                                 {confirmandoId === c.id ? (
                                     <section className="confirmar-eliminar">
                                         <span>¿Eliminar?</span>
                                         <button disabled={loadingDelete} onClick={() => eliminar(c.id, c.nombre)}>
                                             {loadingDelete ? "Eliminando..." : "Sí"}
                                         </button>
-                                        <button disabled={loadingDelete} onClick={() => setConfirmandoId(null)}>
+                                        <button onClick={() => setConfirmandoId(null)}>
                                             No
                                         </button>
                                     </section>
                                 ) : (
-                                    <button onClick={() => setConfirmandoId(c.id)}>Eliminar</button>
+                                    <button onClick={() => setConfirmandoId(c.id)}>
+                                        Eliminar
+                                    </button>
                                 )}
                             </div>
                         </div>
