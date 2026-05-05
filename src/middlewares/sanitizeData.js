@@ -47,3 +47,10 @@ export function sanitizeProduct(data) {
         imagen: sanitizeString(data.imagen)
     }
 }
+
+export function sanitizeCategory(data) {
+    return {
+        id: data.id,
+        nombre: (data.nombre || '').toString().trim()
+    }
+}
