@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const productosController = require('../controllers/productos.controller.cjs');
 const productosValidator = require('../validators/productos.validator.cjs');
+const { autenticar, autorizarRoles } = require('../middlewares/auth.cjs');
 
 // GET /api/productos - Obtener todos los productos
 router.get('/', productosController.getAll);
@@ -12,6 +13,7 @@ router.get('/:id', productosController.getById);
 // POST /api/productos - Crear nuevo producto
 router.post(
   '/',
+  autenticar,
   productosValidator.crear,
   productosController.create
 );
@@ -24,6 +26,6 @@ router.put(
 );
 
 // DELETE /api/productos/:id - Eliminar producto
-router.delete('/:id', productosController.remove);
+router.delete('/:id', autenticar, autorizarRoles('admin'), productosController.remove);
 
 module.exports = router;

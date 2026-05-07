@@ -14,6 +14,7 @@ const clientesRoutes = require('./routes/clientes.cjs');
 const proveedoresRoutes = require('./routes/proveedores.cjs');
 const ventasRoutes = require('./routes/ventas.cjs');
 const comprasRoutes = require('./routes/compras.cjs');
+const authRoutes = require('./routes/auth.cjs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,7 @@ app.use(sanitizeIds);
 
 // ========== RUTAS ==========
 
+app.use('/api/auth', authRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/clientes', clientesRoutes);
