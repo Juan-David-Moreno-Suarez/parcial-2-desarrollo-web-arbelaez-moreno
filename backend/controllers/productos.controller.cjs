@@ -153,7 +153,7 @@ const remove = async (req, res, next) => {
     
     await producto.destroy();
     
-    res.json({ mensaje: 'Producto eliminado exitosamente' });
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

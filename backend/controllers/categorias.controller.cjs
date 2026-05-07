@@ -132,7 +132,7 @@ const remove = async (req, res, next) => {
     
     await categoria.destroy();
     
-    res.json({ mensaje: 'Categoría eliminada exitosamente' });
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

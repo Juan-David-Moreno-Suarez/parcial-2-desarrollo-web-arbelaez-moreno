@@ -13,7 +13,7 @@ const validarResultados = (req, res, next) => {
 
 const crear = [
   body('nombre')
-    .notEmpty().withMessage('El nombre es obligatorio')
+    .notEmpty().withMessage('El nombre es ombligatorio')
     .isString().withMessage('El nombre debe ser texto')
     .isLength({ min: 2 }).withMessage('El nombre debe tener al menos 2 caracteres')
     .trim(),
@@ -22,7 +22,7 @@ const crear = [
     .optional()
     .isString().withMessage('El teléfono debe ser texto')
     .matches(/^\d+$/).withMessage('El teléfono debe contener solo números')
-    .isLength({ min: 6 }).withMessage('El teléfono es demasiado corto')
+    .isLength({ min: 6 }).withMessage('El teléfono debe contener mínimo 6 caracteres')
     .trim(),
   
   body('email')

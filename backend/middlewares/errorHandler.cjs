@@ -1,9 +1,5 @@
-/**
- * Middleware de manejo de errores
- * DEBE registrarse AL FINAL de todas las rutas en server.js
- */
 const errorHandler = (err, req, res, next) => {
-  console.error('❌ Error capturado:', err);
+  console.error('Error capturado:', err);
 
   // Errores de validación de express-validator
   if (err.array) {

@@ -139,7 +139,7 @@ const remove = async (req, res, next) => {
     
     await proveedor.destroy();
     
-    res.json({ mensaje: 'Proveedor eliminado exitosamente' });
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

@@ -141,7 +141,7 @@ const remove = async (req, res, next) => {
     
     await cliente.destroy();
     
-    res.json({ mensaje: 'Cliente eliminado exitosamente' });
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

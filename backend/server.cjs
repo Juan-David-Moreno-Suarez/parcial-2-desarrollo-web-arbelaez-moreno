@@ -18,7 +18,7 @@ const comprasRoutes = require('./routes/compras.cjs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ========== MIDDLEWARES GLOBALES (ORDEN IMPORTA) ==========
+// ========== MIDDLEWARES GLOBALES  ==========
 
 // 1. CORS (permitir peticiones desde el frontend)
 app.use(cors({
@@ -28,10 +28,10 @@ app.use(cors({
 // 2. Parser de JSON
 app.use(express.json());
 
-// 3. PRE-FILTER: Logger de peticiones (ANTES de las rutas)
+// 3. PRE-FILTER: Logger de peticiones
 app.use(requestLogger);
 
-// 4. POST-FILTER: Sanitizar IDs (intercepta res.json)
+// 4. POST-FILTER: Sanitizar IDs
 app.use(sanitizeIds);
 
 // ========== RUTAS ==========
@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
   res.json({ mensaje: 'API funcionando' });
 });
 
-// ========== MIDDLEWARE DE ERRORES (SIEMPRE AL FINAL) ==========
+// ========== MIDDLEWARE DE ERRORES  ==========
 
 app.use(errorHandler);
 
