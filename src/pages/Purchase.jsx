@@ -20,9 +20,9 @@ export default function Purchase() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        async function cargarProductos() {
-            setLoadingProductos(true)
+        async function cargarDatos() {
             try {
+                setLoadingProductos(true)
                 const data = await fetchResource(1)
                 setProductos(data)
             } catch {
@@ -31,15 +31,13 @@ export default function Purchase() {
                 setLoadingProductos(false)
             }
         }
-        cargarProductos()
-        window.addEventListener('focus', cargarProductos)
-        return () => window.removeEventListener('focus', cargarProductos)
+        cargarDatos()
     }, [])
 
     useEffect(() => {
         async function cargarProveedores() {
-            setLoadingProveedores(true)
             try {
+                setLoadingProveedores(true)
                 const data = await fetchResource(5)
                 setProveedores(data)
             } catch {
@@ -49,8 +47,6 @@ export default function Purchase() {
             }
         }
         cargarProveedores()
-        window.addEventListener('focus', cargarProveedores)
-        return () => window.removeEventListener('focus', cargarProveedores)
     }, [])
 
     const productoSeleccionado = productos.find(p => p.id === selectedProducto)
@@ -172,7 +168,7 @@ export default function Purchase() {
                 style: { background: 'linear-gradient(to right, #7c3aed, #a855f7)' }
             }).showToast()
 
-            navigate(-1)
+            navigate('/')
         } catch (error) {
             showToast('Error al registrar la compra')
             console.error(error)
@@ -187,7 +183,7 @@ export default function Purchase() {
                 <section>
                     <button
                         type="button"
-                        onClick={() => navigate(-1)}
+                        onClick={() => navigate('/')}
                         style={{
                             background: 'none',
                             border: 'none',
