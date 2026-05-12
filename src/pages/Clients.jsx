@@ -4,8 +4,9 @@ import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/clients.css'
 
-import { getClients, createClient, editClient, removeClient } from '../controllers/clients.controller'
-import { handleError } from '../middlewares/errorHandler'
+import { fetchResource, postResource, updateResource, deleteResource } from '../services/api'
+
+const errorHandler = console.error.bind(console)
 
 export default function Clients() {
 
@@ -27,10 +28,10 @@ export default function Clients() {
     async function loadClients() {
         try {
             setLoading(true)
-            const data = await getClients()
+            const data = await fetchResource(4)
             setClients(data)
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoading(false)
         }
@@ -64,10 +65,10 @@ export default function Clients() {
             setLoadingSave(true)
 
             if (editing) {
-                await editClient(data, editing)
+                await updateResource(4, data)
                 Toastify({ text: "Cliente editado", duration: 2000 }).showToast()
             } else {
-                await createClient(data, clients)
+                await postResource(4, data)
                 Toastify({ text: "Cliente creado", duration: 2000 }).showToast()
             }
 
@@ -76,7 +77,7 @@ export default function Clients() {
             loadClients()
 
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoadingSave(false)
         }
@@ -85,7 +86,7 @@ export default function Clients() {
     async function eliminar(id, nombre) {
         try {
             setLoadingDelete(true)
-            await removeClient(id)
+            await deleteResource(4, id)
             await loadClients()
             setConfirmandoId(null)
 
@@ -95,7 +96,7 @@ export default function Clients() {
             }).showToast()
 
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoadingDelete(false)
         }

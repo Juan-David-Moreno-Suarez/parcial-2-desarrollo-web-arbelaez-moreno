@@ -246,11 +246,13 @@ function SaleHistory() {
                 {compras.map(c => {
 
                     const items = parseItems(c)
+                    const proveedorNombre = c.proveedor?.nombre || c.proveedorId || 'Sin proveedor'
 
                     return (
                         <div key={c.id} className="venta">
 
                             <p>{c.fecha}</p>
+                            <p style={{ fontWeight: 'bold' }}>Proveedor: {proveedorNombre}</p>
 
                             <button onClick={() => toggleDetallesCompra(c.id)}>
                                 {comprasAbiertas[c.id] ? 'Ocultar' : 'Ver'}

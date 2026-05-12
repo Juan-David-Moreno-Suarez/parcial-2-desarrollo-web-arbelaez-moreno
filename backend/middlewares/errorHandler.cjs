@@ -63,3 +63,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = errorHandler;
+module.exports.default = errorHandler;
+module.exports.errorHandler = errorHandler;
+module.exports.__esModule = true;

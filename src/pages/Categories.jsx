@@ -4,8 +4,9 @@ import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 import '../styles/categories.css'
 
-import { getCategories, createCategory, editCategory, removeCategory } from '../controllers/categories.controller'
-import { handleError } from '../middlewares/errorHandler'
+import { fetchResource, postResource, updateResource, deleteResource } from '../services/api'
+
+const errorHandler = console.error.bind(console)
 
 export default function Categories() {
 
@@ -27,10 +28,10 @@ export default function Categories() {
     async function loadCategories() {
         try {
             setLoading(true)
-            const data = await getCategories()
+            const data = await fetchResource(6)
             setCategories(data)
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoading(false)
         }
@@ -58,10 +59,10 @@ export default function Categories() {
             setLoadingSave(true)
 
             if (editing) {
-                await editCategory(data)
+                await updateResource(6, data)
                 Toastify({ text: "Categoría editada", duration: 2000 }).showToast()
             } else {
-                await createCategory(data, categories)
+                await postResource(6, data)
                 Toastify({ text: "Categoría creada", duration: 2000 }).showToast()
             }
 
@@ -70,7 +71,7 @@ export default function Categories() {
             loadCategories()
 
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoadingSave(false)
         }
@@ -79,7 +80,7 @@ export default function Categories() {
     async function eliminar(id, nombre) {
         try {
             setLoadingDelete(true)
-            await removeCategory(id)
+            await deleteResource(6, id)
             await loadCategories()
             setConfirmandoId(null)
 
@@ -89,7 +90,7 @@ export default function Categories() {
             }).showToast()
 
         } catch (e) {
-            handleError(e)
+            errorHandler(e)
         } finally {
             setLoadingDelete(false)
         }

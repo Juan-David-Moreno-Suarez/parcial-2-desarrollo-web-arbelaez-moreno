@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import CategoryList from "../components/APIComponents"
 import '../styles/newProduct.css'
 import { fetchResource, postResource } from "../services/api"
@@ -20,6 +20,9 @@ export default function NewProduct() {
     const [selectedCategory, setSelectedCategory] = useState("")
     const [customCategory, setCustomCategory] = useState("")
     const navigate = useNavigate()
+    const location = useLocation()
+    const searchParams = new URLSearchParams(location.search)
+    const returnPath = searchParams.get('from') === 'purchase' ? '/purchase' : '/catalogue'
 
     async function handleSubmit(data) {
         data.preventDefault()
@@ -94,7 +97,7 @@ export default function NewProduct() {
             }
 
             await postResource(1, inputData)
-            navigate('/catalogue')
+            navigate(returnPath)
 
         } catch (error) {
             Toastify({
@@ -115,7 +118,7 @@ export default function NewProduct() {
         <section className="prod-container">
             <header>
                 <section>
-                    <Link to="/catalogue">
+                    <Link to={returnPath}>
                         <i className="fa fa-arrow-left" aria-hidden="true"></i>
                         <h2>Volver</h2>
                     </Link>

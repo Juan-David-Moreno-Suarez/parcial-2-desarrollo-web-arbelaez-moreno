@@ -82,7 +82,7 @@ function Catalogue() {
         <h1>Catálogo de productos</h1>
 
         <div id="catalogo-header">
-          <button onClick={() => navigate('/newProduct')} id="agregarProducto">
+          <button onClick={() => navigate('/newProduct?from=catalogue')} id="agregarProducto">
             <span>+</span>
             <span>Agregar un producto</span>
           </button>
