@@ -39,6 +39,10 @@ function Home() {
                     <i className="fa fa-money fa-2x"></i>
                     Abastecer
                 </Link>
+                <Link to="/open-sales">
+                    <i className="fa fa-shopping-cart fa-2x"></i>
+                    ventas abiertas
+                </Link>
             </nav>
         </div>
     )
