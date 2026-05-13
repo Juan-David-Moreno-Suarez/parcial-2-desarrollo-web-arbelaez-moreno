@@ -7,7 +7,7 @@ import 'toastify-js/src/toastify.css'
 import { useState } from "react"
 
 function normalize(str) {
-    return str
+    return String(str || "")
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -19,40 +19,59 @@ export default function NewProduct() {
     const [loading, setLoading] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState("")
     const [customCategory, setCustomCategory] = useState("")
+
     const navigate = useNavigate()
     const location = useLocation()
+
     const searchParams = new URLSearchParams(location.search)
-    const returnPath = searchParams.get('from') === 'purchase' ? '/purchase' : '/catalogue'
+
+    const returnPath =
+        searchParams.get('from') === 'purchase'
+            ? '/purchase'
+            : '/catalogue'
 
     async function handleSubmit(data) {
+
         data.preventDefault()
+
         setLoading(true)
+
         const formData = new FormData(data.target)
+
         const name = formData.get('nombre')
 
-        const productsData = await fetchResource(1)
-        const exists = productsData.find(p => p.nombre.toLowerCase() === name.toLowerCase())
-
-        if (exists) {
-            Toastify({
-                text: `El producto ${name} ya está registrado`,
-                duration: 3000,
-                close: true,
-                gravity: 'top',
-                position: 'center',
-                stopOnFocus: true,
-                style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
-            }).showToast()
-            setLoading(false)
-            return
-        }
-
         try {
-            const rawCategory = customCategory.trim() !== ""
-                ? customCategory.trim()
-                : selectedCategory.trim()
+
+            const productsData = await fetchResource(1)
+
+            const exists = productsData.find(p =>
+                normalize(p?.nombre) === normalize(name)
+            )
+
+            if (exists) {
+                Toastify({
+                    text: `El producto ${name} ya está registrado`,
+                    duration: 3000,
+                    close: true,
+                    gravity: 'top',
+                    position: 'center',
+                    stopOnFocus: true,
+                    style: {
+                        background: 'linear-gradient(to right, #ca222a, #dd50a2)'
+                    }
+                }).showToast()
+
+                setLoading(false)
+                return
+            }
+
+            const rawCategory =
+                customCategory.trim() !== ""
+                    ? customCategory.trim()
+                    : selectedCategory.trim()
 
             if (!rawCategory) {
+
                 Toastify({
                     text: `Debes seleccionar o ingresar una categoría`,
                     duration: 3000,
@@ -60,27 +79,37 @@ export default function NewProduct() {
                     gravity: 'top',
                     position: 'center',
                     stopOnFocus: true,
-                    style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
+                    style: {
+                        background: 'linear-gradient(to right, #ca222a, #dd50a2)'
+                    }
                 }).showToast()
+
                 setLoading(false)
                 return
             }
 
             const categoriesData = await fetchResource(6)
+
             const matchingCategory = categoriesData.find(
-                c => normalize(c.nombre) === normalize(rawCategory)
+                c => normalize(c?.nombre) === normalize(rawCategory)
             )
 
             let finalCategory
+
             if (matchingCategory) {
+
                 finalCategory = matchingCategory.nombre
+
             } else {
+
                 const newCategory = {
                     id: crypto.randomUUID(),
                     nombre: rawCategory,
                     fecha_creacion: new Date().toLocaleString()
                 }
+
                 await postResource(6, newCategory)
+
                 finalCategory = rawCategory
             }
 
@@ -97,9 +126,13 @@ export default function NewProduct() {
             }
 
             await postResource(1, inputData)
+
             navigate(returnPath)
 
         } catch (error) {
+
+            console.error(error)
+
             Toastify({
                 text: `Error al crear el producto`,
                 duration: 3000,
@@ -107,15 +140,20 @@ export default function NewProduct() {
                 gravity: 'top',
                 position: 'center',
                 stopOnFocus: true,
-                style: { background: 'linear-gradient(to right, #ca222a, #dd50a2)' }
+                style: {
+                    background: 'linear-gradient(to right, #ca222a, #dd50a2)'
+                }
             }).showToast()
+
         } finally {
+
             setLoading(false)
         }
     }
 
     return (
         <section className="prod-container">
+
             <header>
                 <section>
                     <Link to={returnPath}>
@@ -124,17 +162,21 @@ export default function NewProduct() {
                     </Link>
                 </section>
             </header>
+
             <main className="form-container">
+
                 <form onSubmit={handleSubmit}>
+
                     <h3>Información de venta</h3>
 
                     <section className="form-group">
-                        <label>Nombre del producto: </label>
+                        <label>Nombre del producto:</label>
                         <input name="nombre" required />
                     </section>
 
                     <section className="form-group">
-                        <label>Categoría: </label>
+                        <label>Categoría:</label>
+
                         <CategoryList
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -142,7 +184,8 @@ export default function NewProduct() {
                     </section>
 
                     <section className="form-group">
-                        <label>O ingresa una nueva categoría: </label>
+                        <label>O ingresa una nueva categoría:</label>
+
                         <input
                             placeholder="Nueva categoría..."
                             value={customCategory}
@@ -151,36 +194,55 @@ export default function NewProduct() {
                     </section>
 
                     <section className="form-group">
-                        <label>Descripción: </label>
+                        <label>Descripción:</label>
                         <input name="descripcion" />
                     </section>
 
                     <section className="form-group">
-                        <label>Precio: </label>
-                        <input name="precio" type='number' required />
+                        <label>Precio:</label>
+                        <input
+                            name="precio"
+                            type="number"
+                            required
+                        />
                     </section>
 
                     <section className="form-group">
-                        <label>Imagen (dejar en blanco si no tiene): </label>
+                        <label>Imagen (dejar en blanco si no tiene):</label>
                         <input name="imagen" />
                     </section>
 
                     <h3>Información de compra</h3>
 
                     <section className="form-group">
-                        <label>Costo: </label>
-                        <input name="costo" type="number" required />
+                        <label>Costo:</label>
+
+                        <input
+                            name="costo"
+                            type="number"
+                            required
+                        />
                     </section>
 
                     <section className="form-group">
-                        <label>Stock: </label>
-                        <input name="stock" type="number" required />
+                        <label>Stock:</label>
+
+                        <input
+                            name="stock"
+                            type="number"
+                            required
+                        />
                     </section>
 
-                    <button type="submit" disabled={loading}>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                    >
                         {loading ? 'Guardando...' : 'Crear producto'}
                     </button>
+
                 </form>
+
             </main>
         </section>
     )

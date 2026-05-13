@@ -78,6 +78,38 @@ function Payment() {
         })
     }
 
+    async function descontarStock() {
+
+        const productos = await fetchResource(1)
+
+        for (let item of carrito) {
+            const producto = productos.find(p => p.id === item.id)
+
+            if (!producto || Number(producto.stock) < Number(item.cantidad)) {
+
+                Toastify({
+                    text: `Stock insuficiente para ${item.nombre}`,
+                    duration: 3000,
+                    style: { background: '#ca222a' }
+                }).showToast()
+
+                return false
+            }
+        }
+
+        for (let item of carrito) {
+
+            const producto = productos.find(p => p.id === item.id)
+
+            await updateResource(1, {
+                ...producto,
+                stock: Number(producto.stock) - Number(item.cantidad)
+            })
+        }
+
+        return true
+    }
+
     async function finalizarVenta() {
 
         if (carrito.length === 0) {
@@ -102,6 +134,7 @@ function Payment() {
         let vueltas = 0
 
         if (metodoPago === 'Efectivo') {
+
             try {
                 const pago = await pedirEfectivo()
                 totalPagado = pago
@@ -112,39 +145,25 @@ function Payment() {
         }
 
         try {
+
             setLoading(true)
+
+            const stockOk = await descontarStock()
+
+            if (!stockOk) {
+                setLoading(false)
+                return
+            }
 
             let finalClienteId =
                 selectedCliente.trim() !== ''
                     ? selectedCliente.trim()
                     : 'Sin cliente'
 
-            const productos = await fetchResource(1)
-
-            for (let item of carrito) {
-                const producto = productos.find(p => p.id === item.id)
-                if (!producto || Number(producto.stock) < Number(item.cantidad)) {
-                    Toastify({
-                        text: `Stock insuficiente para ${item.nombre}`,
-                        duration: 3000,
-                        style: { background: '#ca222a' }
-                    }).showToast()
-                    setLoading(false)
-                    return
-                }
-            }
-
-            for (let item of carrito) {
-                const producto = productos.find(p => p.id === item.id)
-                await updateResource(1, {
-                    ...producto,
-                    stock: Number(producto.stock) - Number(item.cantidad)
-                })
-            }
-
             const nuevaVenta = {
                 id: crypto.randomUUID(),
                 clienteId: finalClienteId,
+                estado: 'cerrada',
                 itemsJson: JSON.stringify(carrito.map(i => ({
                     id: i.id,
                     nombre: i.nombre,
@@ -170,18 +189,92 @@ function Payment() {
                 position: 'center',
                 style: {
                     background: 'linear-gradient(to right, #7c3aed, #a855f7)'
-                },
-                onClick: () => navigate('/salehistory')
+                }
             }).showToast()
 
             navigate('/')
 
         } catch {
+
             Toastify({
                 text: 'Error al registrar la venta',
                 duration: 2000,
                 style: { background: '#ca222a' }
             }).showToast()
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    async function guardarVentaAbierta() {
+
+        if (carrito.length === 0) {
+
+            Toastify({
+                text: 'El carrito está vacío',
+                duration: 2000,
+                style: { background: '#ca222a' }
+            }).showToast()
+
+            return
+        }
+
+        try {
+
+            setLoading(true)
+
+            const stockOk = await descontarStock()
+
+            if (!stockOk) {
+                setLoading(false)
+                return
+            }
+
+            let finalClienteId =
+                selectedCliente.trim() !== ''
+                    ? selectedCliente.trim()
+                    : 'Sin cliente'
+
+            const ventaAbierta = {
+                id: crypto.randomUUID(),
+                clienteId: finalClienteId,
+                estado: 'abierta',
+                metodoPago: 'Abierta',
+                itemsJson: JSON.stringify(carrito.map(i => ({
+                    id: i.id,
+                    nombre: i.nombre,
+                    cantidad: i.cantidad,
+                    precio: i.precio
+                }))),
+                total,
+                totalPagado: 0,
+                vueltas: 0,
+                fecha: new Date().toLocaleString()
+            }
+
+            await postResource(2, ventaAbierta)
+
+            guardarCarrito([])
+
+            Toastify({
+                text: 'Venta abierta guardada ✔',
+                duration: 3000,
+                style: {
+                    background: 'linear-gradient(to right, #f59e0b, #f97316)'
+                }
+            }).showToast()
+
+            navigate('/')
+
+        } catch {
+
+            Toastify({
+                text: 'Error al guardar venta abierta',
+                duration: 2000,
+                style: { background: '#ca222a' }
+            }).showToast()
+
         } finally {
             setLoading(false)
         }
@@ -195,6 +288,7 @@ function Payment() {
             <p>Total a pagar: <strong>${total.toLocaleString()}</strong></p>
 
             <div id="metodos-pago">
+
                 <h4>Método de pago</h4>
 
                 {['Efectivo', 'Nequi', 'Debe'].map(m => (
@@ -207,33 +301,60 @@ function Payment() {
                         {m}
                     </button>
                 ))}
+
             </div>
 
             <section id="cliente">
+
                 <h4>Cliente (opcional)</h4>
 
                 <select
                     value={selectedCliente}
                     onChange={(e) => setSelectedCliente(e.target.value)}
                 >
+
                     <option value="">Selecciona un cliente</option>
+
                     {clientes.map((c, i) => (
                         <option key={i} value={c.id}>
-                            {c.id}
+                            {c.nombre}
                         </option>
                     ))}
+
                 </select>
 
-                <button type="button" onClick={() => navigate('/clients')}>
+                <button
+                    type="button"
+                    onClick={() => navigate('/clients')}
+                >
                     + Agregar nuevo cliente
                 </button>
+
             </section>
 
-            <button onClick={finalizarVenta} disabled={loading}>
+            <button
+                onClick={finalizarVenta}
+                disabled={loading}
+            >
                 {loading ? 'Procesando...' : 'Confirmar pago'}
             </button>
 
-            <button onClick={() => navigate(-1)} disabled={loading}>
+            <button
+                type="button"
+                onClick={guardarVentaAbierta}
+                disabled={loading}
+                style={{
+                    background: '#f59e0b',
+                    marginTop: '10px'
+                }}
+            >
+                Guardar venta abierta
+            </button>
+
+            <button
+                onClick={() => navigate(-1)}
+                disabled={loading}
+            >
                 Volver
             </button>
 

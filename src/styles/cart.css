@@ -433,3 +433,16 @@ main button:hover {
         font-size: 14px !important;
     }
 }
+
+/* INSUFICIENTE STOCK */
+.insuficiente {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid #ff4444;
+    opacity: 0.7;
+}
+
+.error {
+    color: #ff4444;
+    font-weight: bold;
+    font-size: 12px;
+}

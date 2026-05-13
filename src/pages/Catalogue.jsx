@@ -16,7 +16,7 @@ function Catalogue() {
   const navigate = useNavigate()
 
   const productosFiltrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    String(p.nombre || '').toLowerCase().includes(busqueda.toLowerCase())
   )
 
   async function cargarProductos() {
@@ -62,7 +62,7 @@ function Catalogue() {
     }
     guardarCarrito(carrito)
     Toastify({
-      text: `${producto.nombre} agregado al carrito`,
+      text: `${producto.nombre || 'Producto'} agregado al carrito`,
       duration: 2000,
       close: true,
       gravity: 'top',
@@ -103,8 +103,8 @@ function Catalogue() {
           ) : (
             productosFiltrados.map(producto => (
               <article key={producto.id}>
-                <img src={producto.imagen || '/img/logo.png'} width="100" alt={producto.nombre} />
-                <h4>{producto.nombre}</h4>
+                <img src={producto.imagen || '/img/logo.png'} width="100" alt={producto.nombre || 'Producto'} />
+                <h4>{producto.nombre || 'Sin nombre'}</h4>
                 <p>{producto.descripcion}</p>
                 <strong>${Number(producto.precio).toLocaleString()}</strong>
                 <section>
@@ -119,7 +119,7 @@ function Catalogue() {
                   {confirmandoId === producto.id ? (
                     <section className="confirmar-eliminar">
                       <span>¿Eliminar?</span>
-                      <button disabled={loadingDelete} onClick={() => eliminarProducto(producto.id, producto.nombre)}>
+                      <button disabled={loadingDelete} onClick={() => eliminarProducto(producto.id, producto.nombre || 'Producto')}>
                         {loadingDelete ? "Cargando" : "Sí"}
                       </button>
                       <button disabled={loadingDelete} onClick={() => setConfirmandoId(null)}>No</button>
